@@ -6,20 +6,20 @@
 ## [Язык программирования](#язык-программирования)
 
 ``` ebnf
-program ::= {function}
-type ::= 'int' | 'string'
+program ::= {function} | {assign} | {call}
+
 expression ::= "(" expression ")" | expression operators expression | positivie_number | negative_number
 
 variable_name ::= lowercase_letter | uppercase_letter {lowercase_letter}
-assign ::= [type] variable_name "=" value | [type] variable_name "=" read | read_char
+assign ::= "let" variable_name "=" value | "let" variable_name "=" read | read_char
 comp_expression ::= expression comparison_operators expression
-declaration ::= type variable_name
+declaration ::= "let" variable_name
 while ::= "while" "(" comp_expression ")" "{" statement "}"
 if ::= "if" "(" comp_expression ")" "{" statement "}" [ "else" "{" statemnet "}" ]
 statement ::= declaration | assign | while | if | io | jump | call
 jump ::= "return" value
-call ::= variable_name"(" {declaration} ")"
-function ::= "function" type varibale_name"(" {declaration} ")" "{" statement "}"
+call ::= variable_name"(" {variable_name} ")"
+function ::= "function" varibale_name"(" {variable_name} ")" "{" statement "}"
 
 read ::= "input()"
 read_char ::= "input_char()"
@@ -39,6 +39,7 @@ number ::= positibe_number | negative_number
 value ::= number | variable_name
 operators ::= "*" | "/" | "+" | "-" | "%" |
 comparison_operators ::= "==" | "<" | ">" | ">=" | "<=" | "!=" 
+string = "\"[\w\s,.:;!?()\\-]+\""
 ```
 ## [Организация памяти](#организация-памяти)
 ## [Система команд](#система-команд)
