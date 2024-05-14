@@ -11,7 +11,7 @@ program ::= {function} | {assign} | {call}
 expression ::= "(" expression ")" | expression operators expression | positivie_number | negative_number
 
 variable_name ::= lowercase_letter | uppercase_letter {lowercase_letter}
-assign ::= "let" variable_name "=" value | "let" variable_name "=" read | read_char
+assign ::= "let" variable_name "=" expression | read | read_char | value
 comp_expression ::= expression comparison_operators expression
 declaration ::= "let" variable_name
 while ::= "while" "(" comp_expression ")" "{" statement "}"
@@ -22,12 +22,11 @@ call ::= variable_name"(" {variable_name} ")"
 function ::= "function" varibale_name"(" {variable_name} ")" "{" statement "}"
 
 read ::= "input()"
-read_char ::= "input_char()"
 print_string ::= "print(" variable_name ")"
 print_int ::= "print_int(" variable_name ")"
 print_char ::= "print_char(" variable_name ")"
 
-io ::= read | read_char | print_string | print_int | print_char
+io ::= read | print_string | print_int | print_char
 
 lowercase_letter ::= [A-Z]
 uppercase_letter ::= [a-z]
