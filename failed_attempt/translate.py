@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import re
 from enum import Enum
+from isa import MachineWord, Opcode
+import json
 
 
 class Token:
@@ -100,6 +102,11 @@ class ASTType(Enum):
     EQ = "eq"
     NEQ = "neq"
 
+    def to_dict(self):
+        return {
+            "type": self.value,
+        }
+
 
 def map_token_2_type(token: Token.TokenType) -> ASTType:
     ast_types: dict[Token.TokenType, ASTType] = {
@@ -118,6 +125,13 @@ class ASTNode:
     def __str__(self) -> str:
         return f"{self.astType} => {self.value}"
 
+    def to_dict(self):
+        return {
+            "value": self.value,
+            "astType": self.astType.to_dict(),
+            "children": [child.to_dict() for child in self.children]
+        }
+
     @classmethod
     def from_token(cls, token: Token.TokenType, value: str = "") -> ASTNode:
         return cls(map_token_2_type(token), value)
@@ -133,7 +147,7 @@ class ASTNode:
 class Parser:
     def __init__(self, tokenized_source):
         self.tokenized_source = tokenized_source
-        self.ast_source = []
+        self.ast_source: ASTNode | None = None
 
     @classmethod
     def at(cls, tokens):
@@ -204,8 +218,6 @@ class Parser:
             return node, True
         return node, False
 
-
-
     def parse_declaration(self, tokens):
         node: ASTNode = ASTNode.from_token(Token.TokenType.LET)
         self.shift(tokens)
@@ -249,7 +261,7 @@ class Parser:
 
     def parse_if_while_expression(self, tokens):
         token_type = tokens[0].type
-        node = ASTNode.from_token(Token.TokenType.WHILE, tokens[0].value)
+        node = ASTNode.from_token(token_type, tokens[0].value)
         self.shift(tokens)
         condition_node = ASTNode.create_ast_node(ASTType.CONDITION, ASTType.CONDITION.value)
         condition = self.parse_comparison_expression(tokens)
@@ -326,42 +338,188 @@ class Parser:
         return call_node
 
 
+
+
+class SymbolTable:
+    def __init__(self, variable: str, addr: int, scope: str):
+        self.variable: str = variable
+        self.addr: int = addr
+        self.scope: str = scope
+
+def create_symbol(variable_name, addr, scope):
+    return SymbolTable(variable_name, addr, scope)
+
+def check_for_symbol(scope:str, var_name: str, symbol_table: list[SymbolTable]):
+    for i in symbol_table:
+        if i.scope == scope and i.variable == var_name:
+            return True
+    return False
+
+
+class Program:
+    def __init__(self):
+        self.machine_code: list[MachineWord] = []
+        self.current_command_address: int = 0
+        self.current_command_offset: int = 0
+        self.symbol_table: list[SymbolTable] = []
+        self.variables: dict[str, int] = {}
+        self.functions_address: dict[str, int] = {}
+
+    def add_instruction(self, opcode: Opcode, arg1: int | str = 0, arg2: int = 0) -> int:
+        self.machine_code.append(MachineWord(self.current_command_address, opcode, arg1))
+        self.current_command_address += 1
+        return self.current_command_address - 1
+
+    def resolve_variable_addr(self, machine_code: list[MachineWord], symbol_table: list[SymbolTable]):
+        addr = len(machine_code)
+        for i in range(len(symbol_table)):
+            addr += 1
+            symbol_table[i] = create_symbol(symbol_table[i].variable, addr, symbol_table[i].scope)
+        return symbol_table
+
+
+
+class Translator:
+
+    def __init__(self, ast: ASTNode):
+        self.ast = ast
+
+    def ast_to_machine_code(self, root: ASTNode) -> list[MachineWord]:
+        program = Program()
+        for child in root.children:
+            self.ast_to_machine_code_parse_stmt(child, program)
+        program.resolve_variable_addr(program.machine_code, program.symbol_table)
+        [print("{" + f"{x.variable} - {x.addr} - {x.scope}" + "}") for x in program.symbol_table]
+        for i in program.machine_code:
+            print(i)
+
+
+    def ast_to_machine_code_parse_stmt(self, node: ASTNode, program: Program):
+        if node.astType == ASTType.LET:
+            self.ast_to_machine_code_declaration(node, program)
+        if node.astType == ASTType.ASSIGN:
+            self.ast_to_machine_code_assign(node, program)
+        if node.astType == ASTType.IF:
+            self.ast_to_machine_code_if(node, program)
+        self.ast_to_machine_code_expr(node, program)
+
+    def ast_to_machine_code_if(self, node: ASTNode, program: Program):
+        cond = None
+        if_block = None
+        else_block = None
+        for i in node.children:
+            if i.astType == ASTType.CONDITION:
+                cond = i
+            elif i.astType == ASTType.BLOCK:
+                if_block = i
+            else:
+                else_block = i
+
+
+    def ast_to_machine_code_assign(self, node: ASTNode, program: Program):
+        variable_name = None
+        second_child_node = None
+        for i in node.children:
+            if i.astType == ASTType.VAR:
+                variable_name = i.value
+            else:
+                second_child_node = i
+        if not check_for_symbol("global", variable_name, program.symbol_table):
+            raise Exception(f"Variable {variable_name} is not defined")
+        elif len(second_child_node.children) == 0:
+            self.ast_to_machine_code_primary_expr(second_child_node, program)
+        else:
+            self.ast_to_machine_code_expr(second_child_node, program)
+        program.current_command_address += 1
+        program.machine_code.append(MachineWord(program.current_command_address, Opcode.STORE, variable_name))
+
+    def ast_to_machine_code_declaration(self, node: ASTNode, program: Program):
+        variable_name = None
+        second_child_node = None
+        for i in node.children:
+            if i.astType == ASTType.VAR:
+                variable_name = i.value
+            else:
+                second_child_node = i
+        if check_for_symbol("global", variable_name, program.symbol_table):
+            raise Exception(f"Variable {variable_name} is already defined")
+        elif len(second_child_node.children) == 0:
+            program.symbol_table.append(create_symbol(variable_name, 0, "global"))
+            self.ast_to_machine_code_primary_expr(second_child_node, program)
+        else:
+            program.symbol_table.append(create_symbol(variable_name, 0, "global"))
+            self.ast_to_machine_code_expr(second_child_node, program)
+        program.current_command_address += 1
+        program.machine_code.append(MachineWord(program.current_command_address, Opcode.STORE, variable_name))
+
+    def ast_to_machine_code_expr(self, node: ASTNode, program: Program):
+        self.ast_to_machine_code_math_expr(node, program)
+
+    def ast_to_machine_code_primary_expr(self, node: ASTNode, program: Program):
+        if node.astType == ASTType.NUMBER:
+            program.current_command_address += 1
+            args = [int(node.value)]
+            program.machine_code.append(MachineWord(program.current_command_address, Opcode.LIT, args))
+
+    def ast_to_machine_code_math_expr(self, node: ASTNode, program: Program):
+        self.ast_to_machine_code_primary_expr(node, program)
+        if node.astType in {ASTType.PLUS, ASTType.SUB, ASTType.MUL, ASTType.DIV}:
+            self.ast_to_machine_code_expr(node.children[0], program)
+            self.ast_to_machine_code_expr(node.children[1], program)
+            program.current_command_address += 1
+            if node.value == '+':
+                program.machine_code.append(MachineWord(program.current_command_address, Opcode.ADD))
+            elif node.value == '-':
+                program.machine_code.append(MachineWord(program.current_command_address, Opcode.SUB))
+            elif node.value == '*':
+                program.machine_code.append(MachineWord(program.current_command_address, Opcode.MUL))
+            elif node.value == '/':
+                program.machine_code.append(MachineWord(program.current_command_address, Opcode.DIV))
+
+
+
 prog = '''
-    function s(x, y){
-        if (a > b){
-            a = a + b
-            while (b < a){
-                s = s + b
-            }
-        }
-    }
-    let x = 1
-    let y = "32"
-    s(x, y)
+    let b = 1
+    let s = b
 '''
 
 s = Lexer(prog)
 s.parse_to_tokens()
-
+#
 asts = Parser(s.tokenized)
 asts.produce_ast()
-ast = asts.ast_source
-print(ast)
-counting = 1
+tr = Translator(asts.ast_source).ast_to_machine_code(asts.ast_source)
+
+# d = {"s1": 256}
+# if 's1' in d.keys():
+#     print(d["s1"])
+# ast = asts.ast_source
+# print(ast)
+# counting = 1
 
 
-def prints(count):
-    for i in ast.children:
-        print("-" * count, f"{i.astType} {i.value}")
-        if len(i.children) != 0:
-            ast.children = i.children
-            count += 1
-            prints(count)
-            count -= 1
+#
+#
+# def prints(count):
+#     for i in ast.children:
+#         print("-" * count, f"{i.astType} {i.value}")
+#         if len(i.children) != 0:
+#             ast.children = i.children
+#             count += 1
+#             prints(count)
+#             count -= 1
 
 
-prints(counting)
+# for i in ast.children:
+#     print(i.to_dict())
+#     if len(i.children) != 0:
+#         ast.children = i.children
+#         count += 1
+#         prints(count)
+#         count -= 1
 
-# p = parse(prog)
-# k = json.dumps(p, indent=4)
+
+# prints(counting)
+# s = asts.ast_source.to_dict()
+# k = json.dumps(s, indent=2)
 # print(k)
