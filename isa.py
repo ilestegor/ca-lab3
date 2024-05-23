@@ -1,5 +1,5 @@
-from enum import Enum
 import json
+from enum import Enum
 
 
 class Opcode(Enum):
@@ -18,6 +18,8 @@ class Opcode(Enum):
     POP = "pop"
     LIT = "lit"
     HALT = "halt"
+    INC = "inc"
+    DEC = "dec"
 
     def __str__(self):
         return str(self.value)
@@ -31,7 +33,7 @@ def command2opcode(command: str) -> Opcode:
 
 
 class Variable:
-    def __init__(self, name: str, addr: int, value: str | int, ref_add: int = None):
+    def __init__(self, name: str, addr: int, value: str | int | None):
         self.name = name
         self.addr = addr
         self.value = value
@@ -43,6 +45,14 @@ class Variable:
         return f"name:{self.name} - addr:{self.addr} - value:{self.value}"
 
 
+class MemoryCell:
+    def __init__(self, address: int, opcode: Opcode = None, arg: int = None):
+        self.address = address
+        self.opcode = opcode
+        self.arg = arg
+
+    def __str__(self):
+        return f"address:{self.address} - opcode:{self.opcode} - arg:{self.arg}"
 
 
 class MachineWord:
@@ -50,7 +60,7 @@ class MachineWord:
     opcode: Opcode = None
     arg: int | list[int] = None
 
-    def __init__(self, index: int, opcode: Opcode, arg: int | str = None) -> None:
+    def __init__(self, index: int, opcode: Opcode = None, arg: int | str = None) -> None:
         self.index = index
         self.opcode = opcode
         self.arg = arg
@@ -66,5 +76,18 @@ def write_code(code: list[MachineWord | Variable], fn: str, custom_ser) -> None:
         f.write(json.dumps(code, default=custom_ser, indent=2))
 
 
-def read_code():
-    pass
+def read_code(source: str) -> list[MemoryCell]:
+    with open(source, "r", encoding='utf-8') as f:
+        code = json.load(f)
+
+    program: list[MemoryCell] = []
+    for i in code:
+        if 'opcode' in i and 'arg' in i and i['arg'] is not None:
+            program.append(MemoryCell(i['addr'], Opcode(i['opcode']), i['arg']))
+            continue
+        if 'opcode' in i:
+            program.append(MemoryCell(i['addr'], Opcode(i['opcode'])))
+            continue
+        else:
+            program.append(MemoryCell(i['addr'], None, i['value']))
+    return program

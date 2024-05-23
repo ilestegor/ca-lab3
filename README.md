@@ -1,4 +1,5 @@
 # Basic Stack Machine
+
 - Глотов Егор Дмитриевич, P3232
 - `alg -> asm | stack | neum | hw | tick -> instr | struct | stream | port | pstr | prob2 | cache`
 - Упрощенный вариант - `asm | stack | neum | hw | instr | struct | stream | port | pstr | prob2 | -`
@@ -57,11 +58,18 @@ label_name ::= lowercase_letter | uppercase_letter {lowercase_letter} | {upperca
 var_name ::= lowercase_letter | uppercase_letter {lowercase_letter} | {uppercase_letter} | {number}
 comment ::= ";" {<any symbol except "\n">}
 ```
+
 Команды:
- - `add` - сложение двух значений на верхушке стека, результат кладется на верхушку стека `[a, b] -> [b + a]`
- - `sub` - разность двух значений с верхушки стека, результат кладется на верхушку стека `[a. b] -> [b - a]`
+
+- `add` - сложение двух значений на верхушке стека, результат кладется на верхушку стека `[a, b] -> [b + a]`
+- `sub` - разность двух значений с верхушки стека, результат кладется на верхушку стека `[a. b] -> [b - a]`
+
 ## [Организация памяти](#организация-памяти)
+
 ## [Система команд](#система-команд)
+
 ## [Транслятор](#транслятор)
+
 ## [Модель процессора](#модель-процессора)
+
 ## [Тестирование](#тестирование)

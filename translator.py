@@ -1,5 +1,4 @@
 import re
-import sys
 
 from isa import Opcode, MachineWord, write_code, Variable, command2opcode
 
@@ -66,6 +65,8 @@ def is_string(s: str) -> bool:
 
 
 def translate_section_data(data_block: list[str], program: Program) -> None:
+    program.machine_code.append(Variable("start_address", program.current_command_addr, None))
+    program.current_command_addr += 1
     for data in data_block:
         decl = [x.strip() for x in data.split(":", 1)]
         var_name = decl[0]
@@ -87,7 +88,7 @@ def translate_section_data(data_block: list[str], program: Program) -> None:
                     raise ValueError(f"Variable {var_value} is not defined to be referenced")
             elif is_string(var_value):
                 transformed_string = [ord(x) for x in var_value]
-                transformed_string.insert(0, len(transformed_string))
+                transformed_string.insert(0, len(transformed_string) - 2)
                 program.variables[var_name] = Variable(var_name, program.current_command_addr, transformed_string[0])
                 program.machine_code.append(Variable(var_name, program.current_command_addr, transformed_string[0]))
                 transformed_string.pop(0)
@@ -109,15 +110,10 @@ def is_indirect(s: str) -> bool:
     return bool(re.match(r'\[[a-zA-Z_][a-zA-Z0-9_]*]', s))
 
 
-def get_variable_addr(var: Variable, program: Program) -> MachineWord | Variable:
+def get_variable_addr(var: Variable, program: Program) -> MachineWord | Variable | None:
     for i in program.variables:
         if program.variables[i].addr == var.value:
             return program.variables[i]
-
-
-# for i in range(0, len(program.variables)):
-#     if program.machine_code[i].addr == var.value:
-#         return program.machine_code[i]
 
 
 def translate_section_text(command_block: list[str], program: Program) -> None:
@@ -147,7 +143,7 @@ def translate_section_text(command_block: list[str], program: Program) -> None:
 
 
 def resolve_addresses(program: Program):
-    for i in range(len(program.variables), len(program.machine_code)):
+    for i in range(len(program.machine_code)):
         if isinstance(program.machine_code[i], MachineWord) and program.machine_code[i].arg is not None and \
                 program.machine_code[i].arg in program.labels:
             label_addr = get_label_addr_by_name(program, str(program.machine_code[i].arg))
@@ -165,9 +161,16 @@ def resolve_addresses(program: Program):
                 indirect_variable = get_variable_addr(program.variables[var], program)
                 if indirect_variable is not None:
                     program.machine_code[i].arg = indirect_variable.value
+                else:
+                    raise ValueError(f"Variable {var} is not defined to be referenced")
         elif (isinstance(program.machine_code[i], MachineWord) and program.machine_code[i].arg
               is not None and not is_number(str(program.machine_code[i].arg))):
             raise ValueError(f"Variable or label <{program.machine_code[i].arg}> is not defined")
+
+    for i in program.machine_code:
+        if isinstance(i, MachineWord):
+            program.machine_code[0].value = i.index
+            break
 
 
 def translate(src_code: str):
@@ -193,13 +196,13 @@ def translate(src_code: str):
     return program.machine_code
 
 
-def custom_serializer(obj: object):
+def custom_serializer(obj: Variable | MachineWord):
     if isinstance(obj, Variable):
-        return {'name': obj.name, 'addr': obj.addr, 'value': obj.value}
+        return {'addr': obj.addr, 'value': obj.value}
     if isinstance(obj, MachineWord):
         if obj.arg is not None:
-            return {'opcode': obj.opcode.name, 'addr': obj.index, 'arg': obj.arg}
-        return {'opcode': obj.opcode.name, 'addr': obj.index}
+            return {'opcode': obj.opcode.value, 'addr': obj.index, 'arg': obj.arg}
+        return {'opcode': obj.opcode.value, 'addr': obj.index}
 
 
 def main(source: str, target: str) -> None:
@@ -213,8 +216,4 @@ def main(source: str, target: str) -> None:
     write_code(s, out, custom_serializer)
 
 
-if __name__ == "__main__":
-    args = sys.argv
-    assert len(args) == 3, "Invalid number of arguments: python3 translator.py <source> <target>"
-    main(args[1], args[2])
-
+main(None, None)
