@@ -3,23 +3,28 @@ from enum import Enum
 
 
 class Opcode(Enum):
-    ADD = "add"
-    SUB = "sub"
-    MUL = "mul"
-    DIV = "div"
-    MOD = "mod"
-    CMP = "cmp"
-    JMP = "jmp"
-    JZ = "jz"
-    JNZ = "jnz"
-    CALL = "call"
-    RET = "ret"
-    PUSH = "push"
-    POP = "pop"
-    LIT = "lit"
-    HALT = "halt"
-    INC = "inc"
-    DEC = "dec"
+    ADD: str = "add"
+    SUB: str = "sub"
+    MUL: str = "mul"
+    DIV: str = "div"
+    MOD: str = "mod"
+    CMP: str = "cmp"
+    JMP: str = "jmp"
+    JZ: str = "jz"
+    JNZ: str = "jnz"
+    CALL: str = "call"
+    RET: str = "ret"
+    PUSH: str = "push"
+    POP: str = "pop"
+    LIT: str = "lit"
+    HALT: str = "halt"
+    INC: str = "inc"
+    DEC: str = "dec"
+    DUP: str = "dup"
+    SWITCH: str = "switch"
+    DROP: str = "drop"
+    IN: str = "in"
+    OUT: str = "out"
 
     def __str__(self):
         return str(self.value)
@@ -40,8 +45,6 @@ class Variable:
         # self.ref_add = ref_add
 
     def __str__(self):
-        # if self.ref_add is not None:
-        #     return f"name:{self.name} - addr:{self.addr} -  ref_addr:{self.ref_add} - value:{self.value}"
         return f"name:{self.name} - addr:{self.addr} - value:{self.value}"
 
 
@@ -50,6 +53,9 @@ class MemoryCell:
         self.address = address
         self.opcode = opcode
         self.arg = arg
+
+    def __repr__(self):
+        return f"address:{self.address} - opcode:{self.opcode} - arg:{self.arg}"
 
     def __str__(self):
         return f"address:{self.address} - opcode:{self.opcode} - arg:{self.arg}"

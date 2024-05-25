@@ -64,16 +64,38 @@ def is_string(s: str) -> bool:
     return bool(re.match(r'"[\w\s,.:;!?()\\-]+"', s))
 
 
+def is_malloc_request(s: str) -> bool:
+    return bool(re.match(r'^bf', s))
+
+
 def translate_section_data(data_block: list[str], program: Program) -> None:
     program.machine_code.append(Variable("start_address", program.current_command_addr, None))
     program.current_command_addr += 1
     for data in data_block:
+        # if is_malloc_request(data):
+        #     mem_req = [x.strip() for x in data.split(" ", 1)]
+        #     arg = mem_req[1]
+        #     for i in range(int(arg)):
+        #         program.machine_code.append(Variable("req", program.current_command_addr, 0))
+        #         program.current_command_addr += 1
+        #     continue
         decl = [x.strip() for x in data.split(":", 1)]
         var_name = decl[0]
         var_value = decl[1]
         if is_variable_exist(program, var_name):
             raise ValueError(f"Variable {var_name} is already defined")
         else:
+            if is_malloc_request(var_value):
+                arg = [x.strip() for x in var_value.split(" ")][1]
+                if is_number(arg):
+                    program.variables[var_name] = Variable(var_name, program.current_command_addr, arg)
+                    for i in range(int(arg)):
+                        program.machine_code.append(Variable(var_name, program.current_command_addr, 0))
+                        program.current_command_addr += 1
+                    continue
+                else:
+                    raise ValueError(f"Syntax error: Variable {var_name} must be number")
+
             if is_number(var_value):
                 program.variables[var_name] = Variable(var_name, program.current_command_addr, int(var_value))
                 program.machine_code.append(Variable(var_name, program.current_command_addr, int(var_value)))
@@ -189,9 +211,6 @@ def translate(src_code: str):
     translate_section_data(data_block, program)
     translate_section_text(commands_block, program)
     resolve_addresses(program)
-
-    for i in program.machine_code:
-        print(i)
 
     return program.machine_code
 
