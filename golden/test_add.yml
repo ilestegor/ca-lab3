@@ -1,0 +1,82 @@
+in_source: |
+  section .data:
+      x: 2
+      y: 2
+  section .text:
+      lit x
+      push
+      lit y
+      push
+      add
+      halt
+in_stdin: |-
+  []
+out_code: |-
+  [
+   {
+    "addr": 0,
+    "value": 3
+   },
+   {
+    "addr": 1,
+    "value": 2
+   },
+   {
+    "addr": 2,
+    "value": 2
+   },
+   {
+    "opcode": "lit",
+    "addr": 3,
+    "arg": 1
+   },
+   {
+    "opcode": "push",
+    "addr": 4
+   },
+   {
+    "opcode": "lit",
+    "addr": 5,
+    "arg": 2
+   },
+   {
+    "opcode": "push",
+    "addr": 6
+   },
+   {
+    "opcode": "add",
+    "addr": 7
+   },
+   {
+    "opcode": "halt",
+    "addr": 8
+   }
+  ]
+out_stdout: |-
+  source LoC: 10 code instr: 6
+  ============================================================
+  instruction_count: 6, ticks: 26
+out_log: |-
+  DEBUG: execute_lit: TICK: 5   PC 4   TODS1 1   TODS2 0   TOAS 0   Z_FLAG 0   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 11  PC 5   TODS1 2   TODS2 0   TOAS 4   Z_FLAG 0   push
+         DATA_STACK [2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 14  PC 6   TODS1 2   TODS2 0   TOAS 4   Z_FLAG 0   lit 2
+         DATA_STACK [2, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 20  PC 7   TODS1 2   TODS2 0   TOAS 6   Z_FLAG 0   push
+         DATA_STACK [2, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_binary_alu_operation: TICK: 25  PC 8   TODS1 4   TODS2 2   TOAS 6   Z_FLAG 1   add
+         DATA_STACK [4]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_halt: TICK: 26  PC 8   TODS1 4   TODS2 2   TOAS 6   Z_FLAG 1   halt
+         DATA_STACK [4]
+         ADDRESS_STACK []

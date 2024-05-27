@@ -1,4 +1,5 @@
 import re
+import sys
 
 from isa import Opcode, MachineWord, write_code, Variable, command2opcode
 
@@ -61,7 +62,7 @@ def is_variable(s: str) -> bool:
 
 
 def is_string(s: str) -> bool:
-    return bool(re.match(r'"[\w\s,.:;!?()\\-]+"', s))
+    return bool(re.match(r'"[><\w\s,.:;!?()\\-]+"', s))
 
 
 def is_malloc_request(s: str) -> bool:
@@ -72,13 +73,6 @@ def translate_section_data(data_block: list[str], program: Program) -> None:
     program.machine_code.append(Variable("start_address", program.current_command_addr, None))
     program.current_command_addr += 1
     for data in data_block:
-        # if is_malloc_request(data):
-        #     mem_req = [x.strip() for x in data.split(" ", 1)]
-        #     arg = mem_req[1]
-        #     for i in range(int(arg)):
-        #         program.machine_code.append(Variable("req", program.current_command_addr, 0))
-        #         program.current_command_addr += 1
-        #     continue
         decl = [x.strip() for x in data.split(":", 1)]
         var_name = decl[0]
         var_value = decl[1]
@@ -212,7 +206,7 @@ def translate(src_code: str):
     translate_section_text(commands_block, program)
     resolve_addresses(program)
 
-    return program.machine_code
+    return program.machine_code, abs(len(program.variables) - len(program.machine_code))
 
 
 def custom_serializer(obj: Variable | MachineWord):
@@ -225,14 +219,16 @@ def custom_serializer(obj: Variable | MachineWord):
 
 
 def main(source: str, target: str) -> None:
-    src = "/Users/ilestegor/Desktop/Универ/2курс/4сем/арх.комп/lab3/source.txt"
-    out = "/Users/ilestegor/Desktop/Универ/2курс/4сем/арх.комп/lab3/out.txt"
-    with open(src, encoding="utf-8") as f:
+    with open(source, encoding="utf-8") as f:
         src = f.read()
 
-    s = translate(src)
+    s, instr = translate(src)
 
-    write_code(s, out, custom_serializer)
+    write_code(s, target, custom_serializer)
+    print(f"source LoC: {len(src.splitlines())} code instr: {instr - 1}")
 
 
-main(None, None)
+if __name__ == "__main__":
+    assert len(sys.argv) == 3, "Usage: python main.py <source_file> <target_file>"
+    _, source_code, target_file = sys.argv
+    main(source_code, target_file)

@@ -1,0 +1,1151 @@
+in_source: |
+  section .data:
+   count: 1
+   length: 0
+  section .text:
+     in 0
+     lit length
+     pop
+
+     .loop:
+          in 0
+          out 1
+          lit count
+          push
+          lit length
+          push
+          cmp
+          drop
+          drop
+          jz .stop
+
+          lit count
+          push
+          inc
+          lit count
+          pop
+          jmp .loop
+     .stop:
+       halt
+in_stdin: |-
+  360 by charli xcx
+out_code: |-
+  [
+   {
+    "addr": 0,
+    "value": 3
+   },
+   {
+    "addr": 1,
+    "value": 1
+   },
+   {
+    "addr": 2,
+    "value": 0
+   },
+   {
+    "opcode": "in",
+    "addr": 3,
+    "arg": 0
+   },
+   {
+    "opcode": "lit",
+    "addr": 4,
+    "arg": 2
+   },
+   {
+    "opcode": "pop",
+    "addr": 5
+   },
+   {
+    "opcode": "in",
+    "addr": 6,
+    "arg": 0
+   },
+   {
+    "opcode": "out",
+    "addr": 7,
+    "arg": 1
+   },
+   {
+    "opcode": "lit",
+    "addr": 8,
+    "arg": 1
+   },
+   {
+    "opcode": "push",
+    "addr": 9
+   },
+   {
+    "opcode": "lit",
+    "addr": 10,
+    "arg": 2
+   },
+   {
+    "opcode": "push",
+    "addr": 11
+   },
+   {
+    "opcode": "cmp",
+    "addr": 12
+   },
+   {
+    "opcode": "drop",
+    "addr": 13
+   },
+   {
+    "opcode": "drop",
+    "addr": 14
+   },
+   {
+    "opcode": "jz",
+    "addr": 15,
+    "arg": 22
+   },
+   {
+    "opcode": "lit",
+    "addr": 16,
+    "arg": 1
+   },
+   {
+    "opcode": "push",
+    "addr": 17
+   },
+   {
+    "opcode": "inc",
+    "addr": 18
+   },
+   {
+    "opcode": "lit",
+    "addr": 19,
+    "arg": 1
+   },
+   {
+    "opcode": "pop",
+    "addr": 20
+   },
+   {
+    "opcode": "jmp",
+    "addr": 21,
+    "arg": 6
+   },
+   {
+    "opcode": "halt",
+    "addr": 22
+   }
+  ]
+out_stdout: |-
+  source LoC: 28 code instr: 20
+  ============================================================
+  360 by charli xcx
+  instruction_count: 270, ticks: 1062
+out_log: |-
+  DEBUG: read:IN: 17
+
+  DEBUG: execute_lit: TICK: 9   PC 5   TODS1 2   TODS2 0   TOAS 0   Z_FLAG 0   lit 2
+         DATA_STACK [17, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 15  PC 6   TODS1 2   TODS2 17  TOAS 5   Z_FLAG 0   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 51 - 3
+
+  DEBUG: write: OUT: 3 << 51 - 3
+
+  DEBUG: execute_lit: TICK: 26  PC 9   TODS1 1   TODS2 51  TOAS 5   Z_FLAG 0   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 32  PC 10  TODS1 1   TODS2 51  TOAS 9   Z_FLAG 0   push
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 35  PC 11  TODS1 2   TODS2 51  TOAS 9   Z_FLAG 0   lit 2
+         DATA_STACK [1, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 41  PC 12  TODS1 17  TODS2 51  TOAS 11  Z_FLAG 0   push
+         DATA_STACK [1, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 46  PC 13  TODS1 17  TODS2 1   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [1, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 48  PC 14  TODS1 17  TODS2 1   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 50  PC 15  TODS1 1   TODS2 1   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 52  PC 16  TODS1 1   TODS2 1   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 55  PC 17  TODS1 1   TODS2 1   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 61  PC 18  TODS1 1   TODS2 1   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 66  PC 19  TODS1 2   TODS2 1   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 69  PC 20  TODS1 1   TODS2 1   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [2, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 75  PC 21  TODS1 1   TODS2 2   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 78  PC 6   TODS1 6   TODS2 2   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 54 - 6
+
+  DEBUG: write: OUT: 36 << 54 - 6
+
+  DEBUG: execute_lit: TICK: 89  PC 9   TODS1 1   TODS2 54  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 95  PC 10  TODS1 2   TODS2 54  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 98  PC 11  TODS1 2   TODS2 54  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [2, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 104 PC 12  TODS1 17  TODS2 54  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [2, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 109 PC 13  TODS1 17  TODS2 2   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [2, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 111 PC 14  TODS1 17  TODS2 2   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 113 PC 15  TODS1 2   TODS2 2   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 115 PC 16  TODS1 2   TODS2 2   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 118 PC 17  TODS1 1   TODS2 2   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 124 PC 18  TODS1 2   TODS2 2   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 129 PC 19  TODS1 3   TODS2 2   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [3]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 132 PC 20  TODS1 1   TODS2 2   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [3, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 138 PC 21  TODS1 1   TODS2 3   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 141 PC 6   TODS1 6   TODS2 3   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 48 - 0
+
+  DEBUG: write: OUT: 360 << 48 - 0
+
+  DEBUG: execute_lit: TICK: 152 PC 9   TODS1 1   TODS2 48  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 158 PC 10  TODS1 3   TODS2 48  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [3]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 161 PC 11  TODS1 2   TODS2 48  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [3, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 167 PC 12  TODS1 17  TODS2 48  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [3, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 172 PC 13  TODS1 17  TODS2 3   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [3, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 174 PC 14  TODS1 17  TODS2 3   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [3]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 176 PC 15  TODS1 3   TODS2 3   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 178 PC 16  TODS1 3   TODS2 3   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 181 PC 17  TODS1 1   TODS2 3   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 187 PC 18  TODS1 3   TODS2 3   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [3]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 192 PC 19  TODS1 4   TODS2 3   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [4]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 195 PC 20  TODS1 1   TODS2 3   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [4, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 201 PC 21  TODS1 1   TODS2 4   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 204 PC 6   TODS1 6   TODS2 4   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 32 -  
+
+  DEBUG: write: OUT: 360  << 32 -  
+
+  DEBUG: execute_lit: TICK: 215 PC 9   TODS1 1   TODS2 32  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 221 PC 10  TODS1 4   TODS2 32  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [4]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 224 PC 11  TODS1 2   TODS2 32  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [4, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 230 PC 12  TODS1 17  TODS2 32  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [4, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 235 PC 13  TODS1 17  TODS2 4   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [4, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 237 PC 14  TODS1 17  TODS2 4   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [4]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 239 PC 15  TODS1 4   TODS2 4   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 241 PC 16  TODS1 4   TODS2 4   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 244 PC 17  TODS1 1   TODS2 4   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 250 PC 18  TODS1 4   TODS2 4   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [4]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 255 PC 19  TODS1 5   TODS2 4   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [5]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 258 PC 20  TODS1 1   TODS2 4   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [5, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 264 PC 21  TODS1 1   TODS2 5   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 267 PC 6   TODS1 6   TODS2 5   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 98 - b
+
+  DEBUG: write: OUT: 360 b << 98 - b
+
+  DEBUG: execute_lit: TICK: 278 PC 9   TODS1 1   TODS2 98  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 284 PC 10  TODS1 5   TODS2 98  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [5]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 287 PC 11  TODS1 2   TODS2 98  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [5, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 293 PC 12  TODS1 17  TODS2 98  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [5, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 298 PC 13  TODS1 17  TODS2 5   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [5, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 300 PC 14  TODS1 17  TODS2 5   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [5]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 302 PC 15  TODS1 5   TODS2 5   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 304 PC 16  TODS1 5   TODS2 5   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 307 PC 17  TODS1 1   TODS2 5   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 313 PC 18  TODS1 5   TODS2 5   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [5]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 318 PC 19  TODS1 6   TODS2 5   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [6]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 321 PC 20  TODS1 1   TODS2 5   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [6, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 327 PC 21  TODS1 1   TODS2 6   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 330 PC 6   TODS1 6   TODS2 6   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 121 - y
+
+  DEBUG: write: OUT: 360 by << 121 - y
+
+  DEBUG: execute_lit: TICK: 341 PC 9   TODS1 1   TODS2 121 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 347 PC 10  TODS1 6   TODS2 121 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [6]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 350 PC 11  TODS1 2   TODS2 121 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [6, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 356 PC 12  TODS1 17  TODS2 121 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [6, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 361 PC 13  TODS1 17  TODS2 6   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [6, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 363 PC 14  TODS1 17  TODS2 6   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [6]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 365 PC 15  TODS1 6   TODS2 6   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 367 PC 16  TODS1 6   TODS2 6   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 370 PC 17  TODS1 1   TODS2 6   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 376 PC 18  TODS1 6   TODS2 6   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [6]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 381 PC 19  TODS1 7   TODS2 6   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [7]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 384 PC 20  TODS1 1   TODS2 6   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [7, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 390 PC 21  TODS1 1   TODS2 7   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 393 PC 6   TODS1 6   TODS2 7   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 32 -  
+
+  DEBUG: write: OUT: 360 by  << 32 -  
+
+  DEBUG: execute_lit: TICK: 404 PC 9   TODS1 1   TODS2 32  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 410 PC 10  TODS1 7   TODS2 32  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [7]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 413 PC 11  TODS1 2   TODS2 32  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [7, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 419 PC 12  TODS1 17  TODS2 32  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [7, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 424 PC 13  TODS1 17  TODS2 7   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [7, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 426 PC 14  TODS1 17  TODS2 7   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [7]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 428 PC 15  TODS1 7   TODS2 7   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 430 PC 16  TODS1 7   TODS2 7   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 433 PC 17  TODS1 1   TODS2 7   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 439 PC 18  TODS1 7   TODS2 7   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [7]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 444 PC 19  TODS1 8   TODS2 7   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [8]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 447 PC 20  TODS1 1   TODS2 7   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [8, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 453 PC 21  TODS1 1   TODS2 8   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 456 PC 6   TODS1 6   TODS2 8   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 99 - c
+
+  DEBUG: write: OUT: 360 by c << 99 - c
+
+  DEBUG: execute_lit: TICK: 467 PC 9   TODS1 1   TODS2 99  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 473 PC 10  TODS1 8   TODS2 99  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [8]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 476 PC 11  TODS1 2   TODS2 99  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [8, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 482 PC 12  TODS1 17  TODS2 99  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [8, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 487 PC 13  TODS1 17  TODS2 8   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [8, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 489 PC 14  TODS1 17  TODS2 8   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [8]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 491 PC 15  TODS1 8   TODS2 8   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 493 PC 16  TODS1 8   TODS2 8   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 496 PC 17  TODS1 1   TODS2 8   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 502 PC 18  TODS1 8   TODS2 8   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [8]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 507 PC 19  TODS1 9   TODS2 8   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [9]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 510 PC 20  TODS1 1   TODS2 8   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [9, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 516 PC 21  TODS1 1   TODS2 9   TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 519 PC 6   TODS1 6   TODS2 9   TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 104 - h
+
+  DEBUG: write: OUT: 360 by ch << 104 - h
+
+  DEBUG: execute_lit: TICK: 530 PC 9   TODS1 1   TODS2 104 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 536 PC 10  TODS1 9   TODS2 104 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [9]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 539 PC 11  TODS1 2   TODS2 104 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [9, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 545 PC 12  TODS1 17  TODS2 104 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [9, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 550 PC 13  TODS1 17  TODS2 9   TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [9, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 552 PC 14  TODS1 17  TODS2 9   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [9]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 554 PC 15  TODS1 9   TODS2 9   TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 556 PC 16  TODS1 9   TODS2 9   TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 559 PC 17  TODS1 1   TODS2 9   TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 565 PC 18  TODS1 9   TODS2 9   TOAS 17  Z_FLAG 1   push
+         DATA_STACK [9]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 570 PC 19  TODS1 10  TODS2 9   TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [10]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 573 PC 20  TODS1 1   TODS2 9   TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [10, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 579 PC 21  TODS1 1   TODS2 10  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 582 PC 6   TODS1 6   TODS2 10  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 97 - a
+
+  DEBUG: write: OUT: 360 by cha << 97 - a
+
+  DEBUG: execute_lit: TICK: 593 PC 9   TODS1 1   TODS2 97  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 599 PC 10  TODS1 10  TODS2 97  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [10]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 602 PC 11  TODS1 2   TODS2 97  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [10, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 608 PC 12  TODS1 17  TODS2 97  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [10, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 613 PC 13  TODS1 17  TODS2 10  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [10, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 615 PC 14  TODS1 17  TODS2 10  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [10]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 617 PC 15  TODS1 10  TODS2 10  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 619 PC 16  TODS1 10  TODS2 10  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 622 PC 17  TODS1 1   TODS2 10  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 628 PC 18  TODS1 10  TODS2 10  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [10]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 633 PC 19  TODS1 11  TODS2 10  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [11]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 636 PC 20  TODS1 1   TODS2 10  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [11, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 642 PC 21  TODS1 1   TODS2 11  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 645 PC 6   TODS1 6   TODS2 11  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 114 - r
+
+  DEBUG: write: OUT: 360 by char << 114 - r
+
+  DEBUG: execute_lit: TICK: 656 PC 9   TODS1 1   TODS2 114 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 662 PC 10  TODS1 11  TODS2 114 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [11]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 665 PC 11  TODS1 2   TODS2 114 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [11, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 671 PC 12  TODS1 17  TODS2 114 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [11, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 676 PC 13  TODS1 17  TODS2 11  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [11, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 678 PC 14  TODS1 17  TODS2 11  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [11]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 680 PC 15  TODS1 11  TODS2 11  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 682 PC 16  TODS1 11  TODS2 11  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 685 PC 17  TODS1 1   TODS2 11  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 691 PC 18  TODS1 11  TODS2 11  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [11]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 696 PC 19  TODS1 12  TODS2 11  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [12]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 699 PC 20  TODS1 1   TODS2 11  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [12, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 705 PC 21  TODS1 1   TODS2 12  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 708 PC 6   TODS1 6   TODS2 12  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 108 - l
+
+  DEBUG: write: OUT: 360 by charl << 108 - l
+
+  DEBUG: execute_lit: TICK: 719 PC 9   TODS1 1   TODS2 108 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 725 PC 10  TODS1 12  TODS2 108 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [12]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 728 PC 11  TODS1 2   TODS2 108 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [12, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 734 PC 12  TODS1 17  TODS2 108 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [12, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 739 PC 13  TODS1 17  TODS2 12  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [12, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 741 PC 14  TODS1 17  TODS2 12  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [12]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 743 PC 15  TODS1 12  TODS2 12  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 745 PC 16  TODS1 12  TODS2 12  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 748 PC 17  TODS1 1   TODS2 12  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 754 PC 18  TODS1 12  TODS2 12  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [12]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 759 PC 19  TODS1 13  TODS2 12  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [13]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 762 PC 20  TODS1 1   TODS2 12  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [13, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 768 PC 21  TODS1 1   TODS2 13  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 771 PC 6   TODS1 6   TODS2 13  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 105 - i
+
+  DEBUG: write: OUT: 360 by charli << 105 - i
+
+  DEBUG: execute_lit: TICK: 782 PC 9   TODS1 1   TODS2 105 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 788 PC 10  TODS1 13  TODS2 105 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [13]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 791 PC 11  TODS1 2   TODS2 105 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [13, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 797 PC 12  TODS1 17  TODS2 105 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [13, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 802 PC 13  TODS1 17  TODS2 13  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [13, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 804 PC 14  TODS1 17  TODS2 13  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [13]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 806 PC 15  TODS1 13  TODS2 13  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 808 PC 16  TODS1 13  TODS2 13  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 811 PC 17  TODS1 1   TODS2 13  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 817 PC 18  TODS1 13  TODS2 13  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [13]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 822 PC 19  TODS1 14  TODS2 13  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [14]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 825 PC 20  TODS1 1   TODS2 13  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [14, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 831 PC 21  TODS1 1   TODS2 14  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 834 PC 6   TODS1 6   TODS2 14  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 32 -  
+
+  DEBUG: write: OUT: 360 by charli  << 32 -  
+
+  DEBUG: execute_lit: TICK: 845 PC 9   TODS1 1   TODS2 32  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 851 PC 10  TODS1 14  TODS2 32  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [14]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 854 PC 11  TODS1 2   TODS2 32  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [14, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 860 PC 12  TODS1 17  TODS2 32  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [14, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 865 PC 13  TODS1 17  TODS2 14  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [14, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 867 PC 14  TODS1 17  TODS2 14  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [14]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 869 PC 15  TODS1 14  TODS2 14  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 871 PC 16  TODS1 14  TODS2 14  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 874 PC 17  TODS1 1   TODS2 14  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 880 PC 18  TODS1 14  TODS2 14  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [14]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 885 PC 19  TODS1 15  TODS2 14  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [15]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 888 PC 20  TODS1 1   TODS2 14  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [15, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 894 PC 21  TODS1 1   TODS2 15  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 897 PC 6   TODS1 6   TODS2 15  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 120 - x
+
+  DEBUG: write: OUT: 360 by charli x << 120 - x
+
+  DEBUG: execute_lit: TICK: 908 PC 9   TODS1 1   TODS2 120 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 914 PC 10  TODS1 15  TODS2 120 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [15]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 917 PC 11  TODS1 2   TODS2 120 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [15, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 923 PC 12  TODS1 17  TODS2 120 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [15, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 928 PC 13  TODS1 17  TODS2 15  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [15, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 930 PC 14  TODS1 17  TODS2 15  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [15]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 932 PC 15  TODS1 15  TODS2 15  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 934 PC 16  TODS1 15  TODS2 15  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 937 PC 17  TODS1 1   TODS2 15  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 943 PC 18  TODS1 15  TODS2 15  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [15]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 948 PC 19  TODS1 16  TODS2 15  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [16]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 951 PC 20  TODS1 1   TODS2 15  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [16, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 957 PC 21  TODS1 1   TODS2 16  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 960 PC 6   TODS1 6   TODS2 16  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 99 - c
+
+  DEBUG: write: OUT: 360 by charli xc << 99 - c
+
+  DEBUG: execute_lit: TICK: 971 PC 9   TODS1 1   TODS2 99  TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 977 PC 10  TODS1 16  TODS2 99  TOAS 9   Z_FLAG 1   push
+         DATA_STACK [16]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 980 PC 11  TODS1 2   TODS2 99  TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [16, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 986 PC 12  TODS1 17  TODS2 99  TOAS 11  Z_FLAG 1   push
+         DATA_STACK [16, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 991 PC 13  TODS1 17  TODS2 16  TOAS 11  Z_FLAG 1   cmp
+         DATA_STACK [16, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 993 PC 14  TODS1 17  TODS2 16  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK [16]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 995 PC 15  TODS1 16  TODS2 16  TOAS 11  Z_FLAG 1   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 997 PC 16  TODS1 16  TODS2 16  TOAS 11  Z_FLAG 1   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 1000 PC 17  TODS1 1   TODS2 16  TOAS 11  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 1006 PC 18  TODS1 16  TODS2 16  TOAS 17  Z_FLAG 1   push
+         DATA_STACK [16]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_unary_alu_operation: TICK: 1011 PC 19  TODS1 17  TODS2 16  TOAS 17  Z_FLAG 1   inc
+         DATA_STACK [17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 1014 PC 20  TODS1 1   TODS2 16  TOAS 17  Z_FLAG 1   lit 1
+         DATA_STACK [17, 1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_pop: TICK: 1020 PC 21  TODS1 1   TODS2 17  TOAS 20  Z_FLAG 1   pop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jmp: TICK: 1023 PC 6   TODS1 6   TODS2 17  TOAS 20  Z_FLAG 1   jmp 6
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: read:IN: 120 - x
+
+  DEBUG: write: OUT: 360 by charli xcx << 120 - x
+
+  DEBUG: execute_lit: TICK: 1034 PC 9   TODS1 1   TODS2 120 TOAS 20  Z_FLAG 1   lit 1
+         DATA_STACK [1]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 1040 PC 10  TODS1 17  TODS2 120 TOAS 9   Z_FLAG 1   push
+         DATA_STACK [17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_lit: TICK: 1043 PC 11  TODS1 2   TODS2 120 TOAS 9   Z_FLAG 1   lit 2
+         DATA_STACK [17, 2]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_push: TICK: 1049 PC 12  TODS1 17  TODS2 120 TOAS 11  Z_FLAG 1   push
+         DATA_STACK [17, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_cmp: TICK: 1054 PC 13  TODS1 17  TODS2 17  TOAS 11  Z_FLAG 0   cmp
+         DATA_STACK [17, 17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 1056 PC 14  TODS1 17  TODS2 17  TOAS 11  Z_FLAG 0   drop
+         DATA_STACK [17]
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_drop: TICK: 1058 PC 15  TODS1 17  TODS2 17  TOAS 11  Z_FLAG 0   drop
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_jz: TICK: 1061 PC 22  TODS1 22  TODS2 17  TOAS 11  Z_FLAG 0   jz 22
+         DATA_STACK []
+         ADDRESS_STACK [] 
+
+  DEBUG: execute_halt: TICK: 1062 PC 22  TODS1 22  TODS2 17  TOAS 11  Z_FLAG 0   halt
+         DATA_STACK []
+         ADDRESS_STACK []

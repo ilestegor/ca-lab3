@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "csa-lab3"
+version = "0.1.0"
+description = "basic stack machine"
+authors = ["ilestegor <99200163+ilestegor@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.2.1"
+pytest-golden = "^0.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+enable_assertion_pass_hook = true

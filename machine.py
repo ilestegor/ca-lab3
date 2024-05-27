@@ -1,8 +1,11 @@
 import logging
+import sys
+import unicodedata
 from dataclasses import dataclass
 from typing import Callable
 
-import constants
+from constants import *
+from exception import HaltProgramException
 from isa import Opcode, read_code, MemoryCell
 
 AVAILABLE_ALU_BIN_OPERATIONS: dict[Opcode, Callable] = {
@@ -60,12 +63,20 @@ class IO:
     def read(self, port: Port):
         assert port in self.ports, f"Undefined port {port}"
         value = self.ports[port].pop(0)
-        logging.debug("IN: %s - %s", value, chr(value))
+
+        if unicodedata.category(chr(value)) in ['Cc', 'Cf', 'Cs', 'Co', 'Cn', 'Zl', 'Zp']:
+            logging.debug("IN: %s\n", value)
+            return value
+        logging.debug("IN: %s - %s\n", value, chr(value))
         return value
 
     def write(self, port: Port, value: int):
         assert port in self.ports, f"Undefined port {port.value}"
         self.ports[port].append(value)
+        try:
+            logging.debug(" OUT: %s << %s - %s\n", "".join([chr(x) for x in self.ports[STDOUT]]), value, chr(value))
+        except ValueError:
+            logging.debug(" OUT: %s\n", self.ports[STDOUT])
 
 
 class DataPath:
@@ -97,18 +108,18 @@ class DataPath:
         self.data_stack = []
         self.data_tos_reg_1 = 0
         self.data_tos_reg_2 = 0
-        self.data_stack_size = constants.DATA_STACK_SIZE
-        self.address_stack_size = constants.ADDRESS_STACK_SIZE
+        self.data_stack_size = DATA_STACK_SIZE
+        self.address_stack_size = ADDRESS_STACK_SIZE
         self.address_stack = []
         self.address_tos_reg_1 = 0
         self.pc = 0
         self.io = io
         self.alu = Alu()
 
-        self.memory = [0] * constants.MEMORY_SIZE
+        self.memory = [0] * MEMORY_SIZE
         for i in range(len(memory)):
             self.memory[i] = memory[i]
-        self.mem_size = constants.MEMORY_SIZE
+        self.mem_size = MEMORY_SIZE
 
     def signal_latch_pc(self, value: int):
         self.pc = value
@@ -265,8 +276,6 @@ class ControlUnit:
 
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
 
-        logging.debug("%s", self.__repr__())
-
     def execute_in(self, opcode: Opcode):
         self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
         self.tick()
@@ -277,8 +286,6 @@ class ControlUnit:
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
         self.tick()
-
-        logging.debug("%s", self.__repr__())
 
     def execute_push(self, opcode: Opcode):
         self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
@@ -394,8 +401,8 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_halt(self):
-        print(self.datapath.io.ports[STDOUT])
-        exit(0)
+        logging.debug("%s", self.__repr__())
+        raise HaltProgramException("Program halted")
 
     def execute_jmp(self):
         self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
@@ -469,47 +476,68 @@ class ControlUnit:
             str(self.datapath.alu.z_flag)
         )
 
-        data_stack_repr = "DATA STACK {}".format(self.datapath.data_stack)
-        address_stack_repr = "ADDRESS STACK {}".format(self.datapath.address_stack)
+        data_stack_repr = "DATA_STACK {}".format(self.datapath.data_stack)
+        address_stack_repr = "ADDRESS_STACK {}".format(self.datapath.address_stack)
 
         cur_command = "{} {}".format(self.cur_instruction, self.cur_operand)
 
         if self.cur_operand is None:
-            return "{} {}\n{}\n{} \n".format(state_repr, self.cur_instruction, data_stack_repr, address_stack_repr)
-        return "{} {}\n{}\n{} \n".format(state_repr, cur_command, data_stack_repr, address_stack_repr)
+            return "{} {}\n       {}\n       {} \n".format(state_repr, self.cur_instruction, data_stack_repr,
+                                                           address_stack_repr)
+        return "{} {}\n       {}\n       {} \n".format(state_repr, cur_command, data_stack_repr, address_stack_repr)
 
 
 def read_input(fn: str) -> list[int]:
     with open(fn) as f:
         fs = f.read()
-        data = [ord(x) for x in fs]
+        data: list = [ord(x) for x in fs]
         data.insert(0, len(data))
         return data
 
 
-def simulation(code: list[MemoryCell], input_data: list[int]):
-    logging.getLogger().setLevel(logging.DEBUG)
+def simulation(code: list[MemoryCell], input_data: list[int]) -> tuple[list[int], int, int]:
     io: IO = IO({STDIN: input_data, STDOUT: []})
-    datapath = DataPath(code, io)
+    datapath: DataPath = DataPath(code, io)
 
-    control_unit = ControlUnit(datapath)
-    instruction_counter = 0
+    control_unit: ControlUnit = ControlUnit(datapath)
+    instruction_counter: int = 0
 
     control_unit.init_cycle()
 
-    instr_len = len(code)
-    while instruction_counter < 2500:
-        control_unit.decode_and_execute_instruction()
+    try:
+        while instruction_counter < INSTRUCTIONS_LIMIT:
+            control_unit.decode_and_execute_instruction()
+            instruction_counter += 1
+    except HaltProgramException:
         instruction_counter += 1
+        pass
+
+    if instruction_counter == INSTRUCTIONS_LIMIT:
+        logging.warning("Instruction limit")
+
+    return control_unit.datapath.io.ports[STDOUT], instruction_counter, control_unit.ticks
 
 
-def main():
-    fn = "/Users/ilestegor/Desktop/Универ/2курс/4сем/арх.комп/lab3/out.txt"
-    machine_code: list[MemoryCell] = read_code(fn)
-    input_file = "/Users/ilestegor/Desktop/Универ/2курс/4сем/арх.комп/lab3/input"
-    input_str = read_input(input_file)
+def main(source_code_fn: str, input_data_fn: str) -> None:
+    machine_code: list[MemoryCell] = read_code(source_code_fn)
+    input_str: list[int] = read_input(input_data_fn)
 
-    simulation(machine_code, input_str)
+    res = simulation(machine_code, input_str)
+
+    if len(res[0]) != 0:
+        try:
+            print("".join([chr(x) for x in res[0]]))
+        except ValueError:
+            [print(x) for x in res[0]]
+    print(f"instruction_count: {res[1]}, ticks: {res[2]}".rstrip('\n'))
 
 
-main()
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(levelname)s: %(funcName)s:%(message)s'
+    )
+    logging.getLogger().setLevel(logging.DEBUG)
+    assert len(sys.argv) == 3, "Not enough arguments: usage - machine.py <source_code_fn> <input_data_fn>"
+    _, source, input_data = sys.argv
+    main(source, input_data)

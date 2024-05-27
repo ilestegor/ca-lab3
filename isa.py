@@ -42,7 +42,6 @@ class Variable:
         self.name = name
         self.addr = addr
         self.value = value
-        # self.ref_add = ref_add
 
     def __str__(self):
         return f"name:{self.name} - addr:{self.addr} - value:{self.value}"
@@ -79,7 +78,7 @@ class MachineWord:
 
 def write_code(code: list[MachineWord | Variable], fn: str, custom_ser) -> None:
     with open(fn, "w") as f:
-        f.write(json.dumps(code, default=custom_ser, indent=2))
+        f.write(json.dumps(code, default=custom_ser, indent=1))
 
 
 def read_code(source: str) -> list[MemoryCell]:
