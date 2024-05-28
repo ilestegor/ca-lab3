@@ -9,7 +9,7 @@ import pytest
 import machine
 import translator
 
-formatter = logging.Formatter('%(levelname)s: %(funcName)s:%(message)s')
+formatter = logging.Formatter("%(levelname)s: %(funcName)s:%(message)s")
 
 
 def add_custom_log_handler(logger):

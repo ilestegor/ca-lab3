@@ -27,8 +27,10 @@ class Alu:
     z_flag = 0
 
     def calculate(self, left: int, right: int, opcode: Opcode) -> int:
-        assert opcode in AVAILABLE_ALU_BIN_OPERATIONS or opcode in AVAILABLE_ALU_UNARY_OPERATIONS, \
-            f"Unknown alu operation code: {opcode}"
+        assert (
+            opcode in AVAILABLE_ALU_BIN_OPERATIONS
+            or opcode in AVAILABLE_ALU_UNARY_OPERATIONS
+        ), f"Unknown alu operation code: {opcode}"
         if opcode in AVAILABLE_ALU_BIN_OPERATIONS:
             alu_op_handler = AVAILABLE_ALU_BIN_OPERATIONS[opcode]
             calculated_value = alu_op_handler(left, right)
@@ -64,7 +66,15 @@ class IO:
         assert port in self.ports, f"Undefined port {port}"
         value = self.ports[port].pop(0)
 
-        if unicodedata.category(chr(value)) in ['Cc', 'Cf', 'Cs', 'Co', 'Cn', 'Zl', 'Zp']:
+        if unicodedata.category(chr(value)) in [
+            "Cc",
+            "Cf",
+            "Cs",
+            "Co",
+            "Cn",
+            "Zl",
+            "Zp",
+        ]:
             logging.debug("IN: %s\n", value)
             return value
         logging.debug("IN: %s - %s\n", value, chr(value))
@@ -74,7 +84,12 @@ class IO:
         assert port in self.ports, f"Undefined port {port.value}"
         self.ports[port].append(value)
         try:
-            logging.debug(" OUT: %s << %s - %s\n", "".join([chr(x) for x in self.ports[STDOUT]]), value, chr(value))
+            logging.debug(
+                " OUT: %s << %s - %s\n",
+                "".join([chr(x) for x in self.ports[STDOUT]]),
+                value,
+                chr(value),
+            )
         except ValueError:
             logging.debug(" OUT: %s\n", self.ports[STDOUT])
 
@@ -125,11 +140,15 @@ class DataPath:
         self.pc = value
 
     def signal_read_mem(self, addr: int) -> MemoryCell:
-        assert addr < self.mem_size, f"Memory read fault, cell with address - {addr} does not exist"
+        assert (
+            addr < self.mem_size
+        ), f"Memory read fault, cell with address - {addr} does not exist"
         return self.memory[addr]
 
     def signal_write_mem(self, addr: int, value: int) -> None:
-        assert addr < self.mem_size, f"Memory write fault, cell with address - {addr} does not exist"
+        assert (
+            addr < self.mem_size
+        ), f"Memory write fault, cell with address - {addr} does not exist"
         self.memory[addr] = MemoryCell(addr, None, value)
 
     def signal_latch_data_stack_reg_1(self, value: int) -> None:
@@ -139,22 +158,24 @@ class DataPath:
         self.data_tos_reg_2 = value
 
     def signal_write_data_stack(self, value: int) -> None:
-        assert (len(self.data_stack) != self.data_stack_size), "Data stack is overflowed"
+        assert len(self.data_stack) != self.data_stack_size, "Data stack is overflowed"
         self.data_stack.append(value)
 
     def signal_read_data_stack(self) -> int:
-        assert (len(self.data_stack) > 0), "Data stack is empty"
+        assert len(self.data_stack) > 0, "Data stack is empty"
         return self.data_stack.pop()
 
     def signal_read_top_of_address_stack(self) -> int:
-        assert (len(self.address_stack) > 0), "Address stack is empty"
+        assert len(self.address_stack) > 0, "Address stack is empty"
         return self.address_stack.pop()
 
     def signal_latch_top_address_stack(self, value: int) -> None:
         self.address_tos_reg_1 = value
 
     def signal_write_top_address_stack(self, value: int) -> None:
-        assert (len(self.address_stack) != self.address_stack_size), "Address stack is overflowed"
+        assert (
+            len(self.address_stack) != self.address_stack_size
+        ), "Address stack is overflowed"
         self.address_stack.append(value)
 
 
@@ -189,7 +210,7 @@ class ControlUnit:
             Opcode.SWITCH: self.execute_switch,
             Opcode.DROP: self.execute_drop,
             Opcode.OUT: self.execute_out,
-            Opcode.IN: self.execute_in
+            Opcode.IN: self.execute_in,
         }
 
     def tick(self):
@@ -249,10 +270,14 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_unary_alu_operation(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
-        res = self.datapath.alu.calculate(self.datapath.data_tos_reg_1, self.datapath.data_tos_reg_2, opcode)
+        res = self.datapath.alu.calculate(
+            self.datapath.data_tos_reg_1, self.datapath.data_tos_reg_2, opcode
+        )
         self.datapath.signal_latch_data_stack_reg_1(res)
         self.tick()
 
@@ -265,22 +290,32 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_out(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_mem(self.datapath.pc).arg
+        )
         self.tick()
 
-        self.datapath.signal_latch_data_stack_reg_2(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_2(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
-        self.datapath.io.write(Port(self.datapath.data_tos_reg_1), self.datapath.data_tos_reg_2)
+        self.datapath.io.write(
+            Port(self.datapath.data_tos_reg_1), self.datapath.data_tos_reg_2
+        )
         self.tick()
 
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
 
     def execute_in(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_mem(self.datapath.pc).arg
+        )
         self.tick()
 
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.io.read(Port(self.datapath.data_tos_reg_1)))
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.io.read(Port(self.datapath.data_tos_reg_1))
+        )
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
@@ -288,14 +323,18 @@ class ControlUnit:
         self.tick()
 
     def execute_push(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.datapath.signal_latch_top_address_stack(self.datapath.pc)
         self.tick()
 
         self.datapath.signal_latch_pc(self.datapath.data_tos_reg_1)
         self.tick()
 
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_mem(self.datapath.pc).arg
+        )
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
@@ -308,10 +347,14 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_pop(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
-        self.datapath.signal_latch_data_stack_reg_2(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_2(
+            self.datapath.signal_read_data_stack()
+        )
         self.datapath.signal_latch_top_address_stack(self.datapath.pc)
         self.tick()
 
@@ -327,7 +370,9 @@ class ControlUnit:
         logging.debug(self.__repr__())
 
     def execute_dup(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
@@ -342,10 +387,14 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_switch(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
-        self.datapath.signal_latch_data_stack_reg_2(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_2(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
@@ -360,7 +409,9 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_drop(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
         logging.debug("%s", self.__repr__())
@@ -374,7 +425,9 @@ class ControlUnit:
         self.datapath.signal_latch_data_stack_reg_2(operand_2)
         self.tick()
 
-        res = self.datapath.alu.calculate(self.datapath.data_tos_reg_1, self.datapath.data_tos_reg_2, opcode)
+        res = self.datapath.alu.calculate(
+            self.datapath.data_tos_reg_1, self.datapath.data_tos_reg_2, opcode
+        )
         self.datapath.signal_latch_data_stack_reg_1(res)
         self.tick()
 
@@ -384,13 +437,19 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_cmp(self, opcode: Opcode):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
-        self.datapath.signal_latch_data_stack_reg_2(self.datapath.signal_read_data_stack())
+        self.datapath.signal_latch_data_stack_reg_2(
+            self.datapath.signal_read_data_stack()
+        )
         self.tick()
 
-        self.datapath.alu.calculate(self.datapath.data_tos_reg_2, self.datapath.data_tos_reg_1, opcode)
+        self.datapath.alu.calculate(
+            self.datapath.data_tos_reg_2, self.datapath.data_tos_reg_1, opcode
+        )
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_2)
         self.tick()
 
@@ -405,7 +464,9 @@ class ControlUnit:
         raise HaltProgramException("Program halted")
 
     def execute_jmp(self):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_mem(self.datapath.pc).arg
+        )
         self.tick()
 
         self.datapath.signal_latch_pc(self.datapath.data_tos_reg_1)
@@ -415,7 +476,9 @@ class ControlUnit:
 
     def execute_jnz(self):
         if self.datapath.alu.z_flag == 1:
-            self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+            self.datapath.signal_latch_data_stack_reg_1(
+                self.datapath.signal_read_mem(self.datapath.pc).arg
+            )
             self.tick()
 
             self.datapath.signal_latch_pc(self.datapath.data_tos_reg_1)
@@ -428,7 +491,9 @@ class ControlUnit:
 
     def execute_jz(self):
         if self.datapath.alu.z_flag == 0:
-            self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+            self.datapath.signal_latch_data_stack_reg_1(
+                self.datapath.signal_read_mem(self.datapath.pc).arg
+            )
             self.tick()
 
             self.datapath.signal_latch_pc(self.datapath.data_tos_reg_1)
@@ -442,7 +507,9 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_call(self):
-        self.datapath.signal_latch_data_stack_reg_1(self.datapath.signal_read_mem(self.datapath.pc).arg)
+        self.datapath.signal_latch_data_stack_reg_1(
+            self.datapath.signal_read_mem(self.datapath.pc).arg
+        )
         self.tick()
 
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
@@ -458,7 +525,9 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def execute_ret(self):
-        self.datapath.signal_latch_top_address_stack(self.datapath.signal_read_top_of_address_stack())
+        self.datapath.signal_latch_top_address_stack(
+            self.datapath.signal_read_top_of_address_stack()
+        )
         self.tick()
 
         self.datapath.signal_latch_pc(self.datapath.address_tos_reg_1)
@@ -467,13 +536,15 @@ class ControlUnit:
         logging.debug("%s", self.__repr__())
 
     def __repr__(self):
-        state_repr = " TICK: {:3} PC {:3} TODS1 {:3} TODS2 {:3} TOAS {:3} Z_FLAG {:3}".format(
-            str(self.ticks),
-            str(self.datapath.pc),
-            str(self.datapath.data_tos_reg_1),
-            str(self.datapath.data_tos_reg_2),
-            str(self.datapath.address_tos_reg_1),
-            str(self.datapath.alu.z_flag)
+        state_repr = (
+            " TICK: {:3} PC {:3} TODS1 {:3} TODS2 {:3} TOAS {:3} Z_FLAG {:3}".format(
+                str(self.ticks),
+                str(self.datapath.pc),
+                str(self.datapath.data_tos_reg_1),
+                str(self.datapath.data_tos_reg_2),
+                str(self.datapath.address_tos_reg_1),
+                str(self.datapath.alu.z_flag),
+            )
         )
 
         data_stack_repr = "DATA_STACK {}".format(self.datapath.data_stack)
@@ -482,9 +553,12 @@ class ControlUnit:
         cur_command = "{} {}".format(self.cur_instruction, self.cur_operand)
 
         if self.cur_operand is None:
-            return "{} {}\n       {}\n       {} \n".format(state_repr, self.cur_instruction, data_stack_repr,
-                                                           address_stack_repr)
-        return "{} {}\n       {}\n       {} \n".format(state_repr, cur_command, data_stack_repr, address_stack_repr)
+            return "{} {}\n       {}\n       {} \n".format(
+                state_repr, self.cur_instruction, data_stack_repr, address_stack_repr
+            )
+        return "{} {}\n       {}\n       {} \n".format(
+            state_repr, cur_command, data_stack_repr, address_stack_repr
+        )
 
 
 def read_input(fn: str) -> list[int]:
@@ -495,7 +569,9 @@ def read_input(fn: str) -> list[int]:
         return data
 
 
-def simulation(code: list[MemoryCell], input_data: list[int]) -> tuple[list[int], int, int]:
+def simulation(
+    code: list[MemoryCell], input_data: list[int]
+) -> tuple[list[int], int, int]:
     io: IO = IO({STDIN: input_data, STDOUT: []})
     datapath: DataPath = DataPath(code, io)
 
@@ -515,7 +591,11 @@ def simulation(code: list[MemoryCell], input_data: list[int]) -> tuple[list[int]
     if instruction_counter == INSTRUCTIONS_LIMIT:
         logging.warning("Instruction limit")
 
-    return control_unit.datapath.io.ports[STDOUT], instruction_counter, control_unit.ticks
+    return (
+        control_unit.datapath.io.ports[STDOUT],
+        instruction_counter,
+        control_unit.ticks,
+    )
 
 
 def main(source_code_fn: str, input_data_fn: str) -> None:
@@ -529,15 +609,16 @@ def main(source_code_fn: str, input_data_fn: str) -> None:
             print("".join([chr(x) for x in res[0]]))
         except ValueError:
             [print(x) for x in res[0]]
-    print(f"instruction_count: {res[1]}, ticks: {res[2]}".rstrip('\n'))
+    print(f"instruction_count: {res[1]}, ticks: {res[2]}".rstrip("\n"))
 
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(levelname)s: %(funcName)s:%(message)s'
+        level=logging.DEBUG, format="%(levelname)s: %(funcName)s:%(message)s"
     )
     logging.getLogger().setLevel(logging.DEBUG)
-    assert len(sys.argv) == 3, "Not enough arguments: usage - machine.py <source_code_fn> <input_data_fn>"
+    assert (
+        len(sys.argv) == 3
+    ), "Not enough arguments: usage - machine.py <source_code_fn> <input_data_fn>"
     _, source, input_data = sys.argv
     main(source, input_data)

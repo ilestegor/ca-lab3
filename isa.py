@@ -65,7 +65,9 @@ class MachineWord:
     opcode: Opcode = None
     arg: int | list[int] = None
 
-    def __init__(self, index: int, opcode: Opcode = None, arg: int | str = None) -> None:
+    def __init__(
+        self, index: int, opcode: Opcode = None, arg: int | str = None
+    ) -> None:
         self.index = index
         self.opcode = opcode
         self.arg = arg
@@ -82,17 +84,17 @@ def write_code(code: list[MachineWord | Variable], fn: str, custom_ser) -> None:
 
 
 def read_code(source: str) -> list[MemoryCell]:
-    with open(source, "r", encoding='utf-8') as f:
+    with open(source, "r", encoding="utf-8") as f:
         code = json.load(f)
 
     program: list[MemoryCell] = []
     for i in code:
-        if 'opcode' in i and 'arg' in i and i['arg'] is not None:
-            program.append(MemoryCell(i['addr'], Opcode(i['opcode']), i['arg']))
+        if "opcode" in i and "arg" in i and i["arg"] is not None:
+            program.append(MemoryCell(i["addr"], Opcode(i["opcode"]), i["arg"]))
             continue
-        if 'opcode' in i:
-            program.append(MemoryCell(i['addr'], Opcode(i['opcode'])))
+        if "opcode" in i:
+            program.append(MemoryCell(i["addr"], Opcode(i["opcode"])))
             continue
         else:
-            program.append(MemoryCell(i['addr'], None, i['value']))
+            program.append(MemoryCell(i["addr"], None, i["value"]))
     return program
