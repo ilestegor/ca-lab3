@@ -49,6 +49,7 @@ jobs:
 
       - name: Run tests and get coverage
         run: |
+          poetry run pytest . -v
           poetry run coverage run -m pytest
           poetry run coverage report -m
         env:
