@@ -4,7 +4,12 @@ import unicodedata
 from dataclasses import dataclass
 from typing import Callable
 
-from constants import MEMORY_SIZE, DATA_STACK_SIZE, ADDRESS_STACK_SIZE, INSTRUCTIONS_LIMIT
+from constants import (
+    MEMORY_SIZE,
+    DATA_STACK_SIZE,
+    ADDRESS_STACK_SIZE,
+    INSTRUCTIONS_LIMIT,
+)
 from exception import HaltProgramException
 from isa import Opcode, read_code, MemoryCell
 
