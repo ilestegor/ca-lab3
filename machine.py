@@ -287,8 +287,6 @@ class ControlUnit:
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
-        self.tick()
-
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
         self.tick()
 
@@ -308,9 +306,8 @@ class ControlUnit:
         self.datapath.io.write(
             Port(self.datapath.data_tos_reg_1), self.datapath.data_tos_reg_2
         )
-        self.tick()
-
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
+        self.tick()
 
     def execute_in(self, opcode: Opcode):
         self.datapath.signal_latch_data_stack_reg_1(
@@ -384,8 +381,6 @@ class ControlUnit:
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_1)
-        self.tick()
-
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
         self.tick()
 
@@ -406,8 +401,6 @@ class ControlUnit:
         self.tick()
 
         self.datapath.signal_write_data_stack(self.datapath.data_tos_reg_2)
-        self.tick()
-
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
         self.tick()
 
@@ -417,8 +410,8 @@ class ControlUnit:
         self.datapath.signal_latch_data_stack_reg_1(
             self.datapath.signal_read_data_stack()
         )
-        self.tick()
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
+        self.tick()
         logging.debug("%s", self.__repr__())
 
     def execute_binary_alu_operation(self, opcode: Opcode):
@@ -503,10 +496,8 @@ class ControlUnit:
 
             self.datapath.signal_latch_pc(self.datapath.data_tos_reg_1)
             self.tick()
-
             logging.debug("%s", self.__repr__())
             return
-
         self.datapath.signal_latch_pc(self.datapath.pc + 1)
         self.tick()
         logging.debug("%s", self.__repr__())
@@ -533,8 +524,6 @@ class ControlUnit:
         self.datapath.signal_latch_top_address_stack(
             self.datapath.signal_read_top_of_address_stack()
         )
-        self.tick()
-
         self.datapath.signal_latch_pc(self.datapath.address_tos_reg_1)
         self.tick()
 

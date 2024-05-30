@@ -9,8 +9,8 @@ in_source: |
     push ; длина строки
     lit len ; адрес переменной, где будет хранится длина строки
     pop ; загружаем длину строки в память
-    call .inc_pointer
-    .loop:
+    call inc_pointer
+    loop:
         lit count
         push
         lit len
@@ -18,27 +18,27 @@ in_source: |
         cmp
         drop
         drop
-        jz .stop
+        jz stop
         lit pointer
         push
         push
         out 1
-        call .inc_pointer
+        call inc_pointer
         lit count
         push
         inc
         lit count
         pop
-        jmp .loop
+        jmp loop
 
-    .inc_pointer:
+    inc_pointer:
         lit pointer
         push
         inc
         lit pointer
         pop
         ret
-    .stop:
+    stop:
         halt
 in_stdin: |-
   []
@@ -260,7 +260,7 @@ out_stdout: |-
   source LoC: 41 code instr: 44
   ============================================================
   Hello, world!
-  instruction_count: 345, ticks: 1447
+  instruction_count: 345, ticks: 1406
 
 out_log: |-
   DEBUG: execute_lit: TICK: 5   PC 19  TODS1 1   TODS2 0   TOAS 0   Z_FLAG 0   lit 1
@@ -291,1328 +291,1328 @@ out_log: |-
          DATA_STACK [1]
          ADDRESS_STACK [23] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 39  PC 45  TODS1 2   TODS2 13  TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 38  PC 45  TODS1 2   TODS2 13  TOAS 43  Z_FLAG 1   inc
          DATA_STACK [2]
          ADDRESS_STACK [23] 
 
-  DEBUG: execute_lit: TICK: 42  PC 46  TODS1 15  TODS2 13  TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 41  PC 46  TODS1 15  TODS2 13  TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [2, 15]
          ADDRESS_STACK [23] 
 
-  DEBUG: execute_pop: TICK: 48  PC 47  TODS1 15  TODS2 2   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 47  PC 47  TODS1 15  TODS2 2   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [23] 
 
-  DEBUG: execute_ret: TICK: 51  PC 23  TODS1 15  TODS2 2   TOAS 23  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 49  PC 23  TODS1 15  TODS2 2   TOAS 23  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 54  PC 24  TODS1 17  TODS2 2   TOAS 23  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 52  PC 24  TODS1 17  TODS2 2   TOAS 23  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 60  PC 25  TODS1 0   TODS2 2   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 58  PC 25  TODS1 0   TODS2 2   TOAS 24  Z_FLAG 1   push
          DATA_STACK [0]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 63  PC 26  TODS1 16  TODS2 2   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 61  PC 26  TODS1 16  TODS2 2   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [0, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 69  PC 27  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 67  PC 27  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   push
          DATA_STACK [0, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 74  PC 28  TODS1 13  TODS2 0   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 72  PC 28  TODS1 13  TODS2 0   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [0, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 76  PC 29  TODS1 13  TODS2 0   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 74  PC 29  TODS1 13  TODS2 0   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [0]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 78  PC 30  TODS1 0   TODS2 0   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 76  PC 30  TODS1 0   TODS2 0   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 80  PC 31  TODS1 0   TODS2 0   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 78  PC 31  TODS1 0   TODS2 0   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 83  PC 32  TODS1 15  TODS2 0   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 81  PC 32  TODS1 15  TODS2 0   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 89  PC 33  TODS1 2   TODS2 0   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 87  PC 33  TODS1 2   TODS2 0   TOAS 32  Z_FLAG 1   push
          DATA_STACK [2]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 95  PC 34  TODS1 72  TODS2 0   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 93  PC 34  TODS1 72  TODS2 0   TOAS 33  Z_FLAG 1   push
          DATA_STACK [72]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: H << 72 - H
 
-  DEBUG: execute_call: TICK: 104 PC 42  TODS1 42  TODS2 72  TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 102 PC 42  TODS1 42  TODS2 72  TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 107 PC 43  TODS1 15  TODS2 72  TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 105 PC 43  TODS1 15  TODS2 72  TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 113 PC 44  TODS1 2   TODS2 72  TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 111 PC 44  TODS1 2   TODS2 72  TOAS 43  Z_FLAG 1   push
          DATA_STACK [2]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 118 PC 45  TODS1 3   TODS2 72  TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 115 PC 45  TODS1 3   TODS2 72  TOAS 43  Z_FLAG 1   inc
          DATA_STACK [3]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 121 PC 46  TODS1 15  TODS2 72  TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 118 PC 46  TODS1 15  TODS2 72  TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [3, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 127 PC 47  TODS1 15  TODS2 3   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 124 PC 47  TODS1 15  TODS2 3   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 130 PC 36  TODS1 15  TODS2 3   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 126 PC 36  TODS1 15  TODS2 3   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 133 PC 37  TODS1 17  TODS2 3   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 129 PC 37  TODS1 17  TODS2 3   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 139 PC 38  TODS1 0   TODS2 3   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 135 PC 38  TODS1 0   TODS2 3   TOAS 37  Z_FLAG 1   push
          DATA_STACK [0]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 144 PC 39  TODS1 1   TODS2 3   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 139 PC 39  TODS1 1   TODS2 3   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [1]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 147 PC 40  TODS1 17  TODS2 3   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 142 PC 40  TODS1 17  TODS2 3   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [1, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 153 PC 41  TODS1 17  TODS2 1   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 148 PC 41  TODS1 17  TODS2 1   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 156 PC 23  TODS1 23  TODS2 1   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 151 PC 23  TODS1 23  TODS2 1   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 159 PC 24  TODS1 17  TODS2 1   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 154 PC 24  TODS1 17  TODS2 1   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 165 PC 25  TODS1 1   TODS2 1   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 160 PC 25  TODS1 1   TODS2 1   TOAS 24  Z_FLAG 1   push
          DATA_STACK [1]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 168 PC 26  TODS1 16  TODS2 1   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 163 PC 26  TODS1 16  TODS2 1   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [1, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 174 PC 27  TODS1 13  TODS2 1   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 169 PC 27  TODS1 13  TODS2 1   TOAS 26  Z_FLAG 1   push
          DATA_STACK [1, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 179 PC 28  TODS1 13  TODS2 1   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 174 PC 28  TODS1 13  TODS2 1   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [1, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 181 PC 29  TODS1 13  TODS2 1   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 176 PC 29  TODS1 13  TODS2 1   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [1]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 183 PC 30  TODS1 1   TODS2 1   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 178 PC 30  TODS1 1   TODS2 1   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 185 PC 31  TODS1 1   TODS2 1   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 180 PC 31  TODS1 1   TODS2 1   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 188 PC 32  TODS1 15  TODS2 1   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 183 PC 32  TODS1 15  TODS2 1   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 194 PC 33  TODS1 3   TODS2 1   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 189 PC 33  TODS1 3   TODS2 1   TOAS 32  Z_FLAG 1   push
          DATA_STACK [3]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 200 PC 34  TODS1 101 TODS2 1   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 195 PC 34  TODS1 101 TODS2 1   TOAS 33  Z_FLAG 1   push
          DATA_STACK [101]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: He << 101 - e
 
-  DEBUG: execute_call: TICK: 209 PC 42  TODS1 42  TODS2 101 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 204 PC 42  TODS1 42  TODS2 101 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 212 PC 43  TODS1 15  TODS2 101 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 207 PC 43  TODS1 15  TODS2 101 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 218 PC 44  TODS1 3   TODS2 101 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 213 PC 44  TODS1 3   TODS2 101 TOAS 43  Z_FLAG 1   push
          DATA_STACK [3]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 223 PC 45  TODS1 4   TODS2 101 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 217 PC 45  TODS1 4   TODS2 101 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [4]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 226 PC 46  TODS1 15  TODS2 101 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 220 PC 46  TODS1 15  TODS2 101 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [4, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 232 PC 47  TODS1 15  TODS2 4   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 226 PC 47  TODS1 15  TODS2 4   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 235 PC 36  TODS1 15  TODS2 4   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 228 PC 36  TODS1 15  TODS2 4   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 238 PC 37  TODS1 17  TODS2 4   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 231 PC 37  TODS1 17  TODS2 4   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 244 PC 38  TODS1 1   TODS2 4   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 237 PC 38  TODS1 1   TODS2 4   TOAS 37  Z_FLAG 1   push
          DATA_STACK [1]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 249 PC 39  TODS1 2   TODS2 4   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 241 PC 39  TODS1 2   TODS2 4   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [2]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 252 PC 40  TODS1 17  TODS2 4   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 244 PC 40  TODS1 17  TODS2 4   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [2, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 258 PC 41  TODS1 17  TODS2 2   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 250 PC 41  TODS1 17  TODS2 2   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 261 PC 23  TODS1 23  TODS2 2   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 253 PC 23  TODS1 23  TODS2 2   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 264 PC 24  TODS1 17  TODS2 2   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 256 PC 24  TODS1 17  TODS2 2   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 270 PC 25  TODS1 2   TODS2 2   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 262 PC 25  TODS1 2   TODS2 2   TOAS 24  Z_FLAG 1   push
          DATA_STACK [2]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 273 PC 26  TODS1 16  TODS2 2   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 265 PC 26  TODS1 16  TODS2 2   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [2, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 279 PC 27  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 271 PC 27  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   push
          DATA_STACK [2, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 284 PC 28  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 276 PC 28  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [2, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 286 PC 29  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 278 PC 29  TODS1 13  TODS2 2   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [2]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 288 PC 30  TODS1 2   TODS2 2   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 280 PC 30  TODS1 2   TODS2 2   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 290 PC 31  TODS1 2   TODS2 2   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 282 PC 31  TODS1 2   TODS2 2   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 293 PC 32  TODS1 15  TODS2 2   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 285 PC 32  TODS1 15  TODS2 2   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 299 PC 33  TODS1 4   TODS2 2   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 291 PC 33  TODS1 4   TODS2 2   TOAS 32  Z_FLAG 1   push
          DATA_STACK [4]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 305 PC 34  TODS1 108 TODS2 2   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 297 PC 34  TODS1 108 TODS2 2   TOAS 33  Z_FLAG 1   push
          DATA_STACK [108]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hel << 108 - l
 
-  DEBUG: execute_call: TICK: 314 PC 42  TODS1 42  TODS2 108 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 306 PC 42  TODS1 42  TODS2 108 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 317 PC 43  TODS1 15  TODS2 108 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 309 PC 43  TODS1 15  TODS2 108 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 323 PC 44  TODS1 4   TODS2 108 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 315 PC 44  TODS1 4   TODS2 108 TOAS 43  Z_FLAG 1   push
          DATA_STACK [4]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 328 PC 45  TODS1 5   TODS2 108 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 319 PC 45  TODS1 5   TODS2 108 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [5]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 331 PC 46  TODS1 15  TODS2 108 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 322 PC 46  TODS1 15  TODS2 108 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [5, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 337 PC 47  TODS1 15  TODS2 5   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 328 PC 47  TODS1 15  TODS2 5   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 340 PC 36  TODS1 15  TODS2 5   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 330 PC 36  TODS1 15  TODS2 5   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 343 PC 37  TODS1 17  TODS2 5   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 333 PC 37  TODS1 17  TODS2 5   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 349 PC 38  TODS1 2   TODS2 5   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 339 PC 38  TODS1 2   TODS2 5   TOAS 37  Z_FLAG 1   push
          DATA_STACK [2]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 354 PC 39  TODS1 3   TODS2 5   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 343 PC 39  TODS1 3   TODS2 5   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [3]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 357 PC 40  TODS1 17  TODS2 5   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 346 PC 40  TODS1 17  TODS2 5   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [3, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 363 PC 41  TODS1 17  TODS2 3   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 352 PC 41  TODS1 17  TODS2 3   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 366 PC 23  TODS1 23  TODS2 3   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 355 PC 23  TODS1 23  TODS2 3   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 369 PC 24  TODS1 17  TODS2 3   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 358 PC 24  TODS1 17  TODS2 3   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 375 PC 25  TODS1 3   TODS2 3   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 364 PC 25  TODS1 3   TODS2 3   TOAS 24  Z_FLAG 1   push
          DATA_STACK [3]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 378 PC 26  TODS1 16  TODS2 3   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 367 PC 26  TODS1 16  TODS2 3   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [3, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 384 PC 27  TODS1 13  TODS2 3   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 373 PC 27  TODS1 13  TODS2 3   TOAS 26  Z_FLAG 1   push
          DATA_STACK [3, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 389 PC 28  TODS1 13  TODS2 3   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 378 PC 28  TODS1 13  TODS2 3   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [3, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 391 PC 29  TODS1 13  TODS2 3   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 380 PC 29  TODS1 13  TODS2 3   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [3]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 393 PC 30  TODS1 3   TODS2 3   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 382 PC 30  TODS1 3   TODS2 3   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 395 PC 31  TODS1 3   TODS2 3   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 384 PC 31  TODS1 3   TODS2 3   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 398 PC 32  TODS1 15  TODS2 3   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 387 PC 32  TODS1 15  TODS2 3   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 404 PC 33  TODS1 5   TODS2 3   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 393 PC 33  TODS1 5   TODS2 3   TOAS 32  Z_FLAG 1   push
          DATA_STACK [5]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 410 PC 34  TODS1 108 TODS2 3   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 399 PC 34  TODS1 108 TODS2 3   TOAS 33  Z_FLAG 1   push
          DATA_STACK [108]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hell << 108 - l
 
-  DEBUG: execute_call: TICK: 419 PC 42  TODS1 42  TODS2 108 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 408 PC 42  TODS1 42  TODS2 108 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 422 PC 43  TODS1 15  TODS2 108 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 411 PC 43  TODS1 15  TODS2 108 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 428 PC 44  TODS1 5   TODS2 108 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 417 PC 44  TODS1 5   TODS2 108 TOAS 43  Z_FLAG 1   push
          DATA_STACK [5]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 433 PC 45  TODS1 6   TODS2 108 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 421 PC 45  TODS1 6   TODS2 108 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [6]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 436 PC 46  TODS1 15  TODS2 108 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 424 PC 46  TODS1 15  TODS2 108 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [6, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 442 PC 47  TODS1 15  TODS2 6   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 430 PC 47  TODS1 15  TODS2 6   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 445 PC 36  TODS1 15  TODS2 6   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 432 PC 36  TODS1 15  TODS2 6   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 448 PC 37  TODS1 17  TODS2 6   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 435 PC 37  TODS1 17  TODS2 6   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 454 PC 38  TODS1 3   TODS2 6   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 441 PC 38  TODS1 3   TODS2 6   TOAS 37  Z_FLAG 1   push
          DATA_STACK [3]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 459 PC 39  TODS1 4   TODS2 6   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 445 PC 39  TODS1 4   TODS2 6   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [4]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 462 PC 40  TODS1 17  TODS2 6   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 448 PC 40  TODS1 17  TODS2 6   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [4, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 468 PC 41  TODS1 17  TODS2 4   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 454 PC 41  TODS1 17  TODS2 4   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 471 PC 23  TODS1 23  TODS2 4   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 457 PC 23  TODS1 23  TODS2 4   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 474 PC 24  TODS1 17  TODS2 4   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 460 PC 24  TODS1 17  TODS2 4   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 480 PC 25  TODS1 4   TODS2 4   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 466 PC 25  TODS1 4   TODS2 4   TOAS 24  Z_FLAG 1   push
          DATA_STACK [4]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 483 PC 26  TODS1 16  TODS2 4   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 469 PC 26  TODS1 16  TODS2 4   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [4, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 489 PC 27  TODS1 13  TODS2 4   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 475 PC 27  TODS1 13  TODS2 4   TOAS 26  Z_FLAG 1   push
          DATA_STACK [4, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 494 PC 28  TODS1 13  TODS2 4   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 480 PC 28  TODS1 13  TODS2 4   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [4, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 496 PC 29  TODS1 13  TODS2 4   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 482 PC 29  TODS1 13  TODS2 4   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [4]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 498 PC 30  TODS1 4   TODS2 4   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 484 PC 30  TODS1 4   TODS2 4   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 500 PC 31  TODS1 4   TODS2 4   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 486 PC 31  TODS1 4   TODS2 4   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 503 PC 32  TODS1 15  TODS2 4   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 489 PC 32  TODS1 15  TODS2 4   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 509 PC 33  TODS1 6   TODS2 4   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 495 PC 33  TODS1 6   TODS2 4   TOAS 32  Z_FLAG 1   push
          DATA_STACK [6]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 515 PC 34  TODS1 111 TODS2 4   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 501 PC 34  TODS1 111 TODS2 4   TOAS 33  Z_FLAG 1   push
          DATA_STACK [111]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello << 111 - o
 
-  DEBUG: execute_call: TICK: 524 PC 42  TODS1 42  TODS2 111 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 510 PC 42  TODS1 42  TODS2 111 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 527 PC 43  TODS1 15  TODS2 111 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 513 PC 43  TODS1 15  TODS2 111 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 533 PC 44  TODS1 6   TODS2 111 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 519 PC 44  TODS1 6   TODS2 111 TOAS 43  Z_FLAG 1   push
          DATA_STACK [6]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 538 PC 45  TODS1 7   TODS2 111 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 523 PC 45  TODS1 7   TODS2 111 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [7]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 541 PC 46  TODS1 15  TODS2 111 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 526 PC 46  TODS1 15  TODS2 111 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [7, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 547 PC 47  TODS1 15  TODS2 7   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 532 PC 47  TODS1 15  TODS2 7   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 550 PC 36  TODS1 15  TODS2 7   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 534 PC 36  TODS1 15  TODS2 7   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 553 PC 37  TODS1 17  TODS2 7   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 537 PC 37  TODS1 17  TODS2 7   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 559 PC 38  TODS1 4   TODS2 7   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 543 PC 38  TODS1 4   TODS2 7   TOAS 37  Z_FLAG 1   push
          DATA_STACK [4]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 564 PC 39  TODS1 5   TODS2 7   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 547 PC 39  TODS1 5   TODS2 7   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [5]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 567 PC 40  TODS1 17  TODS2 7   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 550 PC 40  TODS1 17  TODS2 7   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [5, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 573 PC 41  TODS1 17  TODS2 5   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 556 PC 41  TODS1 17  TODS2 5   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 576 PC 23  TODS1 23  TODS2 5   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 559 PC 23  TODS1 23  TODS2 5   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 579 PC 24  TODS1 17  TODS2 5   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 562 PC 24  TODS1 17  TODS2 5   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 585 PC 25  TODS1 5   TODS2 5   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 568 PC 25  TODS1 5   TODS2 5   TOAS 24  Z_FLAG 1   push
          DATA_STACK [5]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 588 PC 26  TODS1 16  TODS2 5   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 571 PC 26  TODS1 16  TODS2 5   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [5, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 594 PC 27  TODS1 13  TODS2 5   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 577 PC 27  TODS1 13  TODS2 5   TOAS 26  Z_FLAG 1   push
          DATA_STACK [5, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 599 PC 28  TODS1 13  TODS2 5   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 582 PC 28  TODS1 13  TODS2 5   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [5, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 601 PC 29  TODS1 13  TODS2 5   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 584 PC 29  TODS1 13  TODS2 5   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [5]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 603 PC 30  TODS1 5   TODS2 5   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 586 PC 30  TODS1 5   TODS2 5   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 605 PC 31  TODS1 5   TODS2 5   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 588 PC 31  TODS1 5   TODS2 5   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 608 PC 32  TODS1 15  TODS2 5   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 591 PC 32  TODS1 15  TODS2 5   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 614 PC 33  TODS1 7   TODS2 5   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 597 PC 33  TODS1 7   TODS2 5   TOAS 32  Z_FLAG 1   push
          DATA_STACK [7]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 620 PC 34  TODS1 44  TODS2 5   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 603 PC 34  TODS1 44  TODS2 5   TOAS 33  Z_FLAG 1   push
          DATA_STACK [44]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, << 44 - ,
 
-  DEBUG: execute_call: TICK: 629 PC 42  TODS1 42  TODS2 44  TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 612 PC 42  TODS1 42  TODS2 44  TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 632 PC 43  TODS1 15  TODS2 44  TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 615 PC 43  TODS1 15  TODS2 44  TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 638 PC 44  TODS1 7   TODS2 44  TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 621 PC 44  TODS1 7   TODS2 44  TOAS 43  Z_FLAG 1   push
          DATA_STACK [7]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 643 PC 45  TODS1 8   TODS2 44  TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 625 PC 45  TODS1 8   TODS2 44  TOAS 43  Z_FLAG 1   inc
          DATA_STACK [8]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 646 PC 46  TODS1 15  TODS2 44  TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 628 PC 46  TODS1 15  TODS2 44  TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [8, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 652 PC 47  TODS1 15  TODS2 8   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 634 PC 47  TODS1 15  TODS2 8   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 655 PC 36  TODS1 15  TODS2 8   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 636 PC 36  TODS1 15  TODS2 8   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 658 PC 37  TODS1 17  TODS2 8   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 639 PC 37  TODS1 17  TODS2 8   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 664 PC 38  TODS1 5   TODS2 8   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 645 PC 38  TODS1 5   TODS2 8   TOAS 37  Z_FLAG 1   push
          DATA_STACK [5]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 669 PC 39  TODS1 6   TODS2 8   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 649 PC 39  TODS1 6   TODS2 8   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [6]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 672 PC 40  TODS1 17  TODS2 8   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 652 PC 40  TODS1 17  TODS2 8   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [6, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 678 PC 41  TODS1 17  TODS2 6   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 658 PC 41  TODS1 17  TODS2 6   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 681 PC 23  TODS1 23  TODS2 6   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 661 PC 23  TODS1 23  TODS2 6   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 684 PC 24  TODS1 17  TODS2 6   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 664 PC 24  TODS1 17  TODS2 6   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 690 PC 25  TODS1 6   TODS2 6   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 670 PC 25  TODS1 6   TODS2 6   TOAS 24  Z_FLAG 1   push
          DATA_STACK [6]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 693 PC 26  TODS1 16  TODS2 6   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 673 PC 26  TODS1 16  TODS2 6   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [6, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 699 PC 27  TODS1 13  TODS2 6   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 679 PC 27  TODS1 13  TODS2 6   TOAS 26  Z_FLAG 1   push
          DATA_STACK [6, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 704 PC 28  TODS1 13  TODS2 6   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 684 PC 28  TODS1 13  TODS2 6   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [6, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 706 PC 29  TODS1 13  TODS2 6   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 686 PC 29  TODS1 13  TODS2 6   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [6]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 708 PC 30  TODS1 6   TODS2 6   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 688 PC 30  TODS1 6   TODS2 6   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 710 PC 31  TODS1 6   TODS2 6   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 690 PC 31  TODS1 6   TODS2 6   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 713 PC 32  TODS1 15  TODS2 6   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 693 PC 32  TODS1 15  TODS2 6   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 719 PC 33  TODS1 8   TODS2 6   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 699 PC 33  TODS1 8   TODS2 6   TOAS 32  Z_FLAG 1   push
          DATA_STACK [8]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 725 PC 34  TODS1 32  TODS2 6   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 705 PC 34  TODS1 32  TODS2 6   TOAS 33  Z_FLAG 1   push
          DATA_STACK [32]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello,  << 32 -  
 
-  DEBUG: execute_call: TICK: 734 PC 42  TODS1 42  TODS2 32  TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 714 PC 42  TODS1 42  TODS2 32  TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 737 PC 43  TODS1 15  TODS2 32  TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 717 PC 43  TODS1 15  TODS2 32  TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 743 PC 44  TODS1 8   TODS2 32  TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 723 PC 44  TODS1 8   TODS2 32  TOAS 43  Z_FLAG 1   push
          DATA_STACK [8]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 748 PC 45  TODS1 9   TODS2 32  TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 727 PC 45  TODS1 9   TODS2 32  TOAS 43  Z_FLAG 1   inc
          DATA_STACK [9]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 751 PC 46  TODS1 15  TODS2 32  TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 730 PC 46  TODS1 15  TODS2 32  TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [9, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 757 PC 47  TODS1 15  TODS2 9   TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 736 PC 47  TODS1 15  TODS2 9   TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 760 PC 36  TODS1 15  TODS2 9   TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 738 PC 36  TODS1 15  TODS2 9   TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 763 PC 37  TODS1 17  TODS2 9   TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 741 PC 37  TODS1 17  TODS2 9   TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 769 PC 38  TODS1 6   TODS2 9   TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 747 PC 38  TODS1 6   TODS2 9   TOAS 37  Z_FLAG 1   push
          DATA_STACK [6]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 774 PC 39  TODS1 7   TODS2 9   TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 751 PC 39  TODS1 7   TODS2 9   TOAS 37  Z_FLAG 1   inc
          DATA_STACK [7]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 777 PC 40  TODS1 17  TODS2 9   TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 754 PC 40  TODS1 17  TODS2 9   TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [7, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 783 PC 41  TODS1 17  TODS2 7   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 760 PC 41  TODS1 17  TODS2 7   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 786 PC 23  TODS1 23  TODS2 7   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 763 PC 23  TODS1 23  TODS2 7   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 789 PC 24  TODS1 17  TODS2 7   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 766 PC 24  TODS1 17  TODS2 7   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 795 PC 25  TODS1 7   TODS2 7   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 772 PC 25  TODS1 7   TODS2 7   TOAS 24  Z_FLAG 1   push
          DATA_STACK [7]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 798 PC 26  TODS1 16  TODS2 7   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 775 PC 26  TODS1 16  TODS2 7   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [7, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 804 PC 27  TODS1 13  TODS2 7   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 781 PC 27  TODS1 13  TODS2 7   TOAS 26  Z_FLAG 1   push
          DATA_STACK [7, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 809 PC 28  TODS1 13  TODS2 7   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 786 PC 28  TODS1 13  TODS2 7   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [7, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 811 PC 29  TODS1 13  TODS2 7   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 788 PC 29  TODS1 13  TODS2 7   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [7]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 813 PC 30  TODS1 7   TODS2 7   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 790 PC 30  TODS1 7   TODS2 7   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 815 PC 31  TODS1 7   TODS2 7   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 792 PC 31  TODS1 7   TODS2 7   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 818 PC 32  TODS1 15  TODS2 7   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 795 PC 32  TODS1 15  TODS2 7   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 824 PC 33  TODS1 9   TODS2 7   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 801 PC 33  TODS1 9   TODS2 7   TOAS 32  Z_FLAG 1   push
          DATA_STACK [9]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 830 PC 34  TODS1 119 TODS2 7   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 807 PC 34  TODS1 119 TODS2 7   TOAS 33  Z_FLAG 1   push
          DATA_STACK [119]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, w << 119 - w
 
-  DEBUG: execute_call: TICK: 839 PC 42  TODS1 42  TODS2 119 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 816 PC 42  TODS1 42  TODS2 119 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 842 PC 43  TODS1 15  TODS2 119 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 819 PC 43  TODS1 15  TODS2 119 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 848 PC 44  TODS1 9   TODS2 119 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 825 PC 44  TODS1 9   TODS2 119 TOAS 43  Z_FLAG 1   push
          DATA_STACK [9]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 853 PC 45  TODS1 10  TODS2 119 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 829 PC 45  TODS1 10  TODS2 119 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [10]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 856 PC 46  TODS1 15  TODS2 119 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 832 PC 46  TODS1 15  TODS2 119 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [10, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 862 PC 47  TODS1 15  TODS2 10  TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 838 PC 47  TODS1 15  TODS2 10  TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 865 PC 36  TODS1 15  TODS2 10  TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 840 PC 36  TODS1 15  TODS2 10  TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 868 PC 37  TODS1 17  TODS2 10  TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 843 PC 37  TODS1 17  TODS2 10  TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 874 PC 38  TODS1 7   TODS2 10  TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 849 PC 38  TODS1 7   TODS2 10  TOAS 37  Z_FLAG 1   push
          DATA_STACK [7]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 879 PC 39  TODS1 8   TODS2 10  TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 853 PC 39  TODS1 8   TODS2 10  TOAS 37  Z_FLAG 1   inc
          DATA_STACK [8]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 882 PC 40  TODS1 17  TODS2 10  TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 856 PC 40  TODS1 17  TODS2 10  TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [8, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 888 PC 41  TODS1 17  TODS2 8   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 862 PC 41  TODS1 17  TODS2 8   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 891 PC 23  TODS1 23  TODS2 8   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 865 PC 23  TODS1 23  TODS2 8   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 894 PC 24  TODS1 17  TODS2 8   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 868 PC 24  TODS1 17  TODS2 8   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 900 PC 25  TODS1 8   TODS2 8   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 874 PC 25  TODS1 8   TODS2 8   TOAS 24  Z_FLAG 1   push
          DATA_STACK [8]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 903 PC 26  TODS1 16  TODS2 8   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 877 PC 26  TODS1 16  TODS2 8   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [8, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 909 PC 27  TODS1 13  TODS2 8   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 883 PC 27  TODS1 13  TODS2 8   TOAS 26  Z_FLAG 1   push
          DATA_STACK [8, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 914 PC 28  TODS1 13  TODS2 8   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 888 PC 28  TODS1 13  TODS2 8   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [8, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 916 PC 29  TODS1 13  TODS2 8   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 890 PC 29  TODS1 13  TODS2 8   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [8]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 918 PC 30  TODS1 8   TODS2 8   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 892 PC 30  TODS1 8   TODS2 8   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 920 PC 31  TODS1 8   TODS2 8   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 894 PC 31  TODS1 8   TODS2 8   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 923 PC 32  TODS1 15  TODS2 8   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 897 PC 32  TODS1 15  TODS2 8   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 929 PC 33  TODS1 10  TODS2 8   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 903 PC 33  TODS1 10  TODS2 8   TOAS 32  Z_FLAG 1   push
          DATA_STACK [10]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 935 PC 34  TODS1 111 TODS2 8   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 909 PC 34  TODS1 111 TODS2 8   TOAS 33  Z_FLAG 1   push
          DATA_STACK [111]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, wo << 111 - o
 
-  DEBUG: execute_call: TICK: 944 PC 42  TODS1 42  TODS2 111 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 918 PC 42  TODS1 42  TODS2 111 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 947 PC 43  TODS1 15  TODS2 111 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 921 PC 43  TODS1 15  TODS2 111 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 953 PC 44  TODS1 10  TODS2 111 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 927 PC 44  TODS1 10  TODS2 111 TOAS 43  Z_FLAG 1   push
          DATA_STACK [10]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 958 PC 45  TODS1 11  TODS2 111 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 931 PC 45  TODS1 11  TODS2 111 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [11]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 961 PC 46  TODS1 15  TODS2 111 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 934 PC 46  TODS1 15  TODS2 111 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [11, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 967 PC 47  TODS1 15  TODS2 11  TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 940 PC 47  TODS1 15  TODS2 11  TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 970 PC 36  TODS1 15  TODS2 11  TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 942 PC 36  TODS1 15  TODS2 11  TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 973 PC 37  TODS1 17  TODS2 11  TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 945 PC 37  TODS1 17  TODS2 11  TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 979 PC 38  TODS1 8   TODS2 11  TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 951 PC 38  TODS1 8   TODS2 11  TOAS 37  Z_FLAG 1   push
          DATA_STACK [8]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 984 PC 39  TODS1 9   TODS2 11  TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 955 PC 39  TODS1 9   TODS2 11  TOAS 37  Z_FLAG 1   inc
          DATA_STACK [9]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 987 PC 40  TODS1 17  TODS2 11  TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 958 PC 40  TODS1 17  TODS2 11  TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [9, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 993 PC 41  TODS1 17  TODS2 9   TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 964 PC 41  TODS1 17  TODS2 9   TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 996 PC 23  TODS1 23  TODS2 9   TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 967 PC 23  TODS1 23  TODS2 9   TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 999 PC 24  TODS1 17  TODS2 9   TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 970 PC 24  TODS1 17  TODS2 9   TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1005 PC 25  TODS1 9   TODS2 9   TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 976 PC 25  TODS1 9   TODS2 9   TOAS 24  Z_FLAG 1   push
          DATA_STACK [9]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1008 PC 26  TODS1 16  TODS2 9   TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 979 PC 26  TODS1 16  TODS2 9   TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [9, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1014 PC 27  TODS1 13  TODS2 9   TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 985 PC 27  TODS1 13  TODS2 9   TOAS 26  Z_FLAG 1   push
          DATA_STACK [9, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 1019 PC 28  TODS1 13  TODS2 9   TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 990 PC 28  TODS1 13  TODS2 9   TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [9, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1021 PC 29  TODS1 13  TODS2 9   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 992 PC 29  TODS1 13  TODS2 9   TOAS 26  Z_FLAG 1   drop
          DATA_STACK [9]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1023 PC 30  TODS1 9   TODS2 9   TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 994 PC 30  TODS1 9   TODS2 9   TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 1025 PC 31  TODS1 9   TODS2 9   TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 996 PC 31  TODS1 9   TODS2 9   TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1028 PC 32  TODS1 15  TODS2 9   TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 999 PC 32  TODS1 15  TODS2 9   TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1034 PC 33  TODS1 11  TODS2 9   TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1005 PC 33  TODS1 11  TODS2 9   TOAS 32  Z_FLAG 1   push
          DATA_STACK [11]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1040 PC 34  TODS1 114 TODS2 9   TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1011 PC 34  TODS1 114 TODS2 9   TOAS 33  Z_FLAG 1   push
          DATA_STACK [114]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, wor << 114 - r
 
-  DEBUG: execute_call: TICK: 1049 PC 42  TODS1 42  TODS2 114 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 1020 PC 42  TODS1 42  TODS2 114 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1052 PC 43  TODS1 15  TODS2 114 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1023 PC 43  TODS1 15  TODS2 114 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 1058 PC 44  TODS1 11  TODS2 114 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1029 PC 44  TODS1 11  TODS2 114 TOAS 43  Z_FLAG 1   push
          DATA_STACK [11]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1063 PC 45  TODS1 12  TODS2 114 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1033 PC 45  TODS1 12  TODS2 114 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [12]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1066 PC 46  TODS1 15  TODS2 114 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1036 PC 46  TODS1 15  TODS2 114 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [12, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 1072 PC 47  TODS1 15  TODS2 12  TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1042 PC 47  TODS1 15  TODS2 12  TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 1075 PC 36  TODS1 15  TODS2 12  TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 1044 PC 36  TODS1 15  TODS2 12  TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1078 PC 37  TODS1 17  TODS2 12  TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1047 PC 37  TODS1 17  TODS2 12  TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1084 PC 38  TODS1 9   TODS2 12  TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1053 PC 38  TODS1 9   TODS2 12  TOAS 37  Z_FLAG 1   push
          DATA_STACK [9]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1089 PC 39  TODS1 10  TODS2 12  TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1057 PC 39  TODS1 10  TODS2 12  TOAS 37  Z_FLAG 1   inc
          DATA_STACK [10]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1092 PC 40  TODS1 17  TODS2 12  TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1060 PC 40  TODS1 17  TODS2 12  TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [10, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 1098 PC 41  TODS1 17  TODS2 10  TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1066 PC 41  TODS1 17  TODS2 10  TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 1101 PC 23  TODS1 23  TODS2 10  TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 1069 PC 23  TODS1 23  TODS2 10  TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1104 PC 24  TODS1 17  TODS2 10  TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1072 PC 24  TODS1 17  TODS2 10  TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1110 PC 25  TODS1 10  TODS2 10  TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1078 PC 25  TODS1 10  TODS2 10  TOAS 24  Z_FLAG 1   push
          DATA_STACK [10]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1113 PC 26  TODS1 16  TODS2 10  TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 1081 PC 26  TODS1 16  TODS2 10  TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [10, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1119 PC 27  TODS1 13  TODS2 10  TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1087 PC 27  TODS1 13  TODS2 10  TOAS 26  Z_FLAG 1   push
          DATA_STACK [10, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 1124 PC 28  TODS1 13  TODS2 10  TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 1092 PC 28  TODS1 13  TODS2 10  TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [10, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1126 PC 29  TODS1 13  TODS2 10  TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 1094 PC 29  TODS1 13  TODS2 10  TOAS 26  Z_FLAG 1   drop
          DATA_STACK [10]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1128 PC 30  TODS1 10  TODS2 10  TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 1096 PC 30  TODS1 10  TODS2 10  TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 1130 PC 31  TODS1 10  TODS2 10  TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 1098 PC 31  TODS1 10  TODS2 10  TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1133 PC 32  TODS1 15  TODS2 10  TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1101 PC 32  TODS1 15  TODS2 10  TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1139 PC 33  TODS1 12  TODS2 10  TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1107 PC 33  TODS1 12  TODS2 10  TOAS 32  Z_FLAG 1   push
          DATA_STACK [12]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1145 PC 34  TODS1 108 TODS2 10  TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1113 PC 34  TODS1 108 TODS2 10  TOAS 33  Z_FLAG 1   push
          DATA_STACK [108]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, worl << 108 - l
 
-  DEBUG: execute_call: TICK: 1154 PC 42  TODS1 42  TODS2 108 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 1122 PC 42  TODS1 42  TODS2 108 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1157 PC 43  TODS1 15  TODS2 108 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1125 PC 43  TODS1 15  TODS2 108 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 1163 PC 44  TODS1 12  TODS2 108 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1131 PC 44  TODS1 12  TODS2 108 TOAS 43  Z_FLAG 1   push
          DATA_STACK [12]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1168 PC 45  TODS1 13  TODS2 108 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1135 PC 45  TODS1 13  TODS2 108 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [13]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1171 PC 46  TODS1 15  TODS2 108 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1138 PC 46  TODS1 15  TODS2 108 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [13, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 1177 PC 47  TODS1 15  TODS2 13  TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1144 PC 47  TODS1 15  TODS2 13  TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 1180 PC 36  TODS1 15  TODS2 13  TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 1146 PC 36  TODS1 15  TODS2 13  TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1183 PC 37  TODS1 17  TODS2 13  TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1149 PC 37  TODS1 17  TODS2 13  TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1189 PC 38  TODS1 10  TODS2 13  TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1155 PC 38  TODS1 10  TODS2 13  TOAS 37  Z_FLAG 1   push
          DATA_STACK [10]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1194 PC 39  TODS1 11  TODS2 13  TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1159 PC 39  TODS1 11  TODS2 13  TOAS 37  Z_FLAG 1   inc
          DATA_STACK [11]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1197 PC 40  TODS1 17  TODS2 13  TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1162 PC 40  TODS1 17  TODS2 13  TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [11, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 1203 PC 41  TODS1 17  TODS2 11  TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1168 PC 41  TODS1 17  TODS2 11  TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 1206 PC 23  TODS1 23  TODS2 11  TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 1171 PC 23  TODS1 23  TODS2 11  TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1209 PC 24  TODS1 17  TODS2 11  TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1174 PC 24  TODS1 17  TODS2 11  TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1215 PC 25  TODS1 11  TODS2 11  TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1180 PC 25  TODS1 11  TODS2 11  TOAS 24  Z_FLAG 1   push
          DATA_STACK [11]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1218 PC 26  TODS1 16  TODS2 11  TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 1183 PC 26  TODS1 16  TODS2 11  TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [11, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1224 PC 27  TODS1 13  TODS2 11  TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1189 PC 27  TODS1 13  TODS2 11  TOAS 26  Z_FLAG 1   push
          DATA_STACK [11, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 1229 PC 28  TODS1 13  TODS2 11  TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 1194 PC 28  TODS1 13  TODS2 11  TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [11, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1231 PC 29  TODS1 13  TODS2 11  TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 1196 PC 29  TODS1 13  TODS2 11  TOAS 26  Z_FLAG 1   drop
          DATA_STACK [11]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1233 PC 30  TODS1 11  TODS2 11  TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 1198 PC 30  TODS1 11  TODS2 11  TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 1235 PC 31  TODS1 11  TODS2 11  TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 1200 PC 31  TODS1 11  TODS2 11  TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1238 PC 32  TODS1 15  TODS2 11  TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1203 PC 32  TODS1 15  TODS2 11  TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1244 PC 33  TODS1 13  TODS2 11  TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1209 PC 33  TODS1 13  TODS2 11  TOAS 32  Z_FLAG 1   push
          DATA_STACK [13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1250 PC 34  TODS1 100 TODS2 11  TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1215 PC 34  TODS1 100 TODS2 11  TOAS 33  Z_FLAG 1   push
          DATA_STACK [100]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, world << 100 - d
 
-  DEBUG: execute_call: TICK: 1259 PC 42  TODS1 42  TODS2 100 TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 1224 PC 42  TODS1 42  TODS2 100 TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1262 PC 43  TODS1 15  TODS2 100 TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1227 PC 43  TODS1 15  TODS2 100 TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 1268 PC 44  TODS1 13  TODS2 100 TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1233 PC 44  TODS1 13  TODS2 100 TOAS 43  Z_FLAG 1   push
          DATA_STACK [13]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1273 PC 45  TODS1 14  TODS2 100 TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1237 PC 45  TODS1 14  TODS2 100 TOAS 43  Z_FLAG 1   inc
          DATA_STACK [14]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1276 PC 46  TODS1 15  TODS2 100 TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1240 PC 46  TODS1 15  TODS2 100 TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [14, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 1282 PC 47  TODS1 15  TODS2 14  TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1246 PC 47  TODS1 15  TODS2 14  TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 1285 PC 36  TODS1 15  TODS2 14  TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 1248 PC 36  TODS1 15  TODS2 14  TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1288 PC 37  TODS1 17  TODS2 14  TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1251 PC 37  TODS1 17  TODS2 14  TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1294 PC 38  TODS1 11  TODS2 14  TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1257 PC 38  TODS1 11  TODS2 14  TOAS 37  Z_FLAG 1   push
          DATA_STACK [11]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1299 PC 39  TODS1 12  TODS2 14  TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1261 PC 39  TODS1 12  TODS2 14  TOAS 37  Z_FLAG 1   inc
          DATA_STACK [12]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1302 PC 40  TODS1 17  TODS2 14  TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1264 PC 40  TODS1 17  TODS2 14  TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [12, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 1308 PC 41  TODS1 17  TODS2 12  TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1270 PC 41  TODS1 17  TODS2 12  TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 1311 PC 23  TODS1 23  TODS2 12  TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 1273 PC 23  TODS1 23  TODS2 12  TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1314 PC 24  TODS1 17  TODS2 12  TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1276 PC 24  TODS1 17  TODS2 12  TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1320 PC 25  TODS1 12  TODS2 12  TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1282 PC 25  TODS1 12  TODS2 12  TOAS 24  Z_FLAG 1   push
          DATA_STACK [12]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1323 PC 26  TODS1 16  TODS2 12  TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 1285 PC 26  TODS1 16  TODS2 12  TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [12, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1329 PC 27  TODS1 13  TODS2 12  TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1291 PC 27  TODS1 13  TODS2 12  TOAS 26  Z_FLAG 1   push
          DATA_STACK [12, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 1334 PC 28  TODS1 13  TODS2 12  TOAS 26  Z_FLAG 1   cmp
+  DEBUG: execute_cmp: TICK: 1296 PC 28  TODS1 13  TODS2 12  TOAS 26  Z_FLAG 1   cmp
          DATA_STACK [12, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1336 PC 29  TODS1 13  TODS2 12  TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 1298 PC 29  TODS1 13  TODS2 12  TOAS 26  Z_FLAG 1   drop
          DATA_STACK [12]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1338 PC 30  TODS1 12  TODS2 12  TOAS 26  Z_FLAG 1   drop
+  DEBUG: execute_drop: TICK: 1300 PC 30  TODS1 12  TODS2 12  TOAS 26  Z_FLAG 1   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 1340 PC 31  TODS1 12  TODS2 12  TOAS 26  Z_FLAG 1   jz 48
+  DEBUG: execute_jz: TICK: 1302 PC 31  TODS1 12  TODS2 12  TOAS 26  Z_FLAG 1   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1343 PC 32  TODS1 15  TODS2 12  TOAS 26  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1305 PC 32  TODS1 15  TODS2 12  TOAS 26  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1349 PC 33  TODS1 14  TODS2 12  TOAS 32  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1311 PC 33  TODS1 14  TODS2 12  TOAS 32  Z_FLAG 1   push
          DATA_STACK [14]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1355 PC 34  TODS1 33  TODS2 12  TOAS 33  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1317 PC 34  TODS1 33  TODS2 12  TOAS 33  Z_FLAG 1   push
          DATA_STACK [33]
          ADDRESS_STACK [] 
 
   DEBUG: write: OUT: Hello, world! << 33 - !
 
-  DEBUG: execute_call: TICK: 1364 PC 42  TODS1 42  TODS2 33  TOAS 36  Z_FLAG 1   call 42
+  DEBUG: execute_call: TICK: 1326 PC 42  TODS1 42  TODS2 33  TOAS 36  Z_FLAG 1   call 42
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1367 PC 43  TODS1 15  TODS2 33  TOAS 36  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1329 PC 43  TODS1 15  TODS2 33  TOAS 36  Z_FLAG 1   lit 15
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_push: TICK: 1373 PC 44  TODS1 14  TODS2 33  TOAS 43  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1335 PC 44  TODS1 14  TODS2 33  TOAS 43  Z_FLAG 1   push
          DATA_STACK [14]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1378 PC 45  TODS1 15  TODS2 33  TOAS 43  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1339 PC 45  TODS1 15  TODS2 33  TOAS 43  Z_FLAG 1   inc
          DATA_STACK [15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_lit: TICK: 1381 PC 46  TODS1 15  TODS2 33  TOAS 43  Z_FLAG 1   lit 15
+  DEBUG: execute_lit: TICK: 1342 PC 46  TODS1 15  TODS2 33  TOAS 43  Z_FLAG 1   lit 15
          DATA_STACK [15, 15]
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_pop: TICK: 1387 PC 47  TODS1 15  TODS2 15  TOAS 46  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1348 PC 47  TODS1 15  TODS2 15  TOAS 46  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [36] 
 
-  DEBUG: execute_ret: TICK: 1390 PC 36  TODS1 15  TODS2 15  TOAS 36  Z_FLAG 1   ret
+  DEBUG: execute_ret: TICK: 1350 PC 36  TODS1 15  TODS2 15  TOAS 36  Z_FLAG 1   ret
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1393 PC 37  TODS1 17  TODS2 15  TOAS 36  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1353 PC 37  TODS1 17  TODS2 15  TOAS 36  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1399 PC 38  TODS1 12  TODS2 15  TOAS 37  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1359 PC 38  TODS1 12  TODS2 15  TOAS 37  Z_FLAG 1   push
          DATA_STACK [12]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_unary_alu_operation: TICK: 1404 PC 39  TODS1 13  TODS2 15  TOAS 37  Z_FLAG 1   inc
+  DEBUG: execute_unary_alu_operation: TICK: 1363 PC 39  TODS1 13  TODS2 15  TOAS 37  Z_FLAG 1   inc
          DATA_STACK [13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1407 PC 40  TODS1 17  TODS2 15  TOAS 37  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1366 PC 40  TODS1 17  TODS2 15  TOAS 37  Z_FLAG 1   lit 17
          DATA_STACK [13, 17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_pop: TICK: 1413 PC 41  TODS1 17  TODS2 13  TOAS 40  Z_FLAG 1   pop
+  DEBUG: execute_pop: TICK: 1372 PC 41  TODS1 17  TODS2 13  TOAS 40  Z_FLAG 1   pop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jmp: TICK: 1416 PC 23  TODS1 23  TODS2 13  TOAS 40  Z_FLAG 1   jmp 23
+  DEBUG: execute_jmp: TICK: 1375 PC 23  TODS1 23  TODS2 13  TOAS 40  Z_FLAG 1   jmp 23
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1419 PC 24  TODS1 17  TODS2 13  TOAS 40  Z_FLAG 1   lit 17
+  DEBUG: execute_lit: TICK: 1378 PC 24  TODS1 17  TODS2 13  TOAS 40  Z_FLAG 1   lit 17
          DATA_STACK [17]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1425 PC 25  TODS1 13  TODS2 13  TOAS 24  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1384 PC 25  TODS1 13  TODS2 13  TOAS 24  Z_FLAG 1   push
          DATA_STACK [13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_lit: TICK: 1428 PC 26  TODS1 16  TODS2 13  TOAS 24  Z_FLAG 1   lit 16
+  DEBUG: execute_lit: TICK: 1387 PC 26  TODS1 16  TODS2 13  TOAS 24  Z_FLAG 1   lit 16
          DATA_STACK [13, 16]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_push: TICK: 1434 PC 27  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 1   push
+  DEBUG: execute_push: TICK: 1393 PC 27  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 1   push
          DATA_STACK [13, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_cmp: TICK: 1439 PC 28  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 0   cmp
+  DEBUG: execute_cmp: TICK: 1398 PC 28  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 0   cmp
          DATA_STACK [13, 13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1441 PC 29  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 0   drop
+  DEBUG: execute_drop: TICK: 1400 PC 29  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 0   drop
          DATA_STACK [13]
          ADDRESS_STACK [] 
 
-  DEBUG: execute_drop: TICK: 1443 PC 30  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 0   drop
+  DEBUG: execute_drop: TICK: 1402 PC 30  TODS1 13  TODS2 13  TOAS 26  Z_FLAG 0   drop
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_jz: TICK: 1446 PC 48  TODS1 48  TODS2 13  TOAS 26  Z_FLAG 0   jz 48
+  DEBUG: execute_jz: TICK: 1405 PC 48  TODS1 48  TODS2 13  TOAS 26  Z_FLAG 0   jz 48
          DATA_STACK []
          ADDRESS_STACK [] 
 
-  DEBUG: execute_halt: TICK: 1447 PC 48  TODS1 48  TODS2 13  TOAS 26  Z_FLAG 0   halt
+  DEBUG: execute_halt: TICK: 1406 PC 48  TODS1 48  TODS2 13  TOAS 26  Z_FLAG 0   halt
          DATA_STACK []
          ADDRESS_STACK []

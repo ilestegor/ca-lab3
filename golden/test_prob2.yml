@@ -6,7 +6,7 @@ in_source: |
     temp: 0
     max: 5702887
   section .text:
-    .fib:
+    fib:
         lit b
         push
         lit max
@@ -14,15 +14,15 @@ in_source: |
         cmp
         drop
         drop
-        jz .end
+        jz end
 
         lit 2
         lit b
         push
         mod
         drop
-        jz .even
-    .next:
+        jz even
+    next:
         lit a
         push
         lit b
@@ -40,8 +40,8 @@ in_source: |
         push
         lit b
         pop
-        jmp .fib
-    .even:
+        jmp fib
+    even:
         lit b
         push
         lit sum
@@ -49,8 +49,8 @@ in_source: |
         add
         lit sum
         pop
-        jmp .next
-    .end:
+        jmp next
+    end:
         lit sum
         push
         out 1

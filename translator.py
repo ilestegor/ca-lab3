@@ -145,7 +145,8 @@ def translate_section_data(data_block: list[str], program: Program) -> None:
 
 
 def is_label(s: str) -> bool:
-    return bool(re.match(r"\..*:", s))
+    # return bool(re.match(r".*:", s))
+    return bool(re.match(r"^[^<>%$.]*:$", s))
 
 
 def is_indirect(s: str) -> bool:
