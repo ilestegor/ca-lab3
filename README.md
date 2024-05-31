@@ -293,6 +293,6 @@ jmp label ; jmp 12, где 12 - адрес инструкции после об�
 Реализовано в модуле [machine](machine.py)
 
 ### Схема DataPath
-<img src="resources/img/datapath_controlu_unit_models.drawio.png" width="900"  alt="datapath img"/> 
+<img src="resources/img/datapath_controlu_unit_models.jpg" width="900"  alt="datapath img"/>
 
 ## [Тестирование](#тестирование)
