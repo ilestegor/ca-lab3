@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from enum import Enum
 
-from exception import OpcodeError
+import exception
 
 
 class Opcode(Enum):
@@ -38,7 +38,7 @@ def command2opcode(command: str) -> Opcode:
     try:
         return Opcode[command.upper()]
     except KeyError:
-        raise OpcodeError(command)
+        raise exception.OpcodeError(command) from exception
 
 
 class Variable:
