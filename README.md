@@ -332,7 +332,7 @@ jmp label ; jmp 12, где 12 - адрес инструкции после об�
 - `z_flag` - отражает наличие нулевого результат операции, выполненной в `alu`
 
 ### ControlUnit
-<img src="resources/img/control_unit.jpg" width="900"  alt="datapath img"/>
+<img src="resources/img/control_unit.jpg" width="700"  alt="datapath img"/>
 
 Реализован в классе [ControlUnit](machine.py)
 - `Hardwired` (реализован полностью на Python)
@@ -356,6 +356,7 @@ jmp label ; jmp 12, где 12 - адрес инструкции после об�
 - Конфигурация тестов лежит в папке [golden](golden)
 
 Запустить тесты: `poetry run pytest . -v`
+
 Обновить конфигурацию golden test-ов: `poetry run pytest . -v --update-goldens`
 
 CI при помощи Github Actions:
