@@ -541,8 +541,18 @@ def main(source_code_fn: str, input_data_fn: str) -> None:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(funcName)s:%(message)s")
-    logging.getLogger().setLevel(logging.DEBUG)
-    assert len(sys.argv) == 3, "Not enough arguments: usage - machine.py <source_code_fn> <input_data_fn>"
-    _, source, input_data = sys.argv
-    main(source, input_data)
+    assert 4 >= len(sys.argv) >= 3, "Invalid usage: usage - machine.py <source_code_fn> <input_data_fn> <log_level> - " "optional"
+    if len(sys.argv) == 4:
+        _, source, input_data, log_level = sys.argv
+        log_level = log_level.upper()
+        try:
+            logging.basicConfig(level=logging.getLevelName(log_level), format="%(levelname)s: %(funcName)s:%(message)s")
+            logging.getLogger().setLevel(logging.getLevelName(log_level))
+            main(source, input_data)
+        except ValueError:
+            print(f"Invalid log level: Available log levels {list(logging.getLevelNamesMapping().keys())}")
+    else:
+        _, source, input_data = sys.argv
+        logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(funcName)s:%(message)s")
+        logging.getLogger().setLevel(logging.DEBUG)
+        main(source, input_data)
