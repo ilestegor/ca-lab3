@@ -1,0 +1,41 @@
+section .data:
+    hw: "Hello, world!"
+    pointer: hw
+    len: 0
+    count: 0
+section .text:
+    lit hw
+    push
+    lit len
+    pop
+    call inc_pointer
+    loop:
+        lit count
+        push
+        lit len
+        push
+        cmp
+        drop
+        drop
+        jz stop
+        lit pointer
+        push
+        push
+        out 1
+        call inc_pointer
+        lit count
+        push
+        inc
+        lit count
+        pop
+        jmp loop
+
+    inc_pointer:
+        lit pointer
+        push
+        inc
+        lit pointer
+        pop
+        ret
+    stop:
+        halt

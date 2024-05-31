@@ -53,7 +53,7 @@ out_code: |-
    }
   ]
 out_stdout: |-
-  source LoC: 10 code instr: 6
+  source LoC: 10 code instr: 9
   ============================================================
   instruction_count: 6, ticks: 26
 out_log: |-

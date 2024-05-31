@@ -1,0 +1,56 @@
+section .data:
+    sum: 0
+    a: 1
+    b: 1
+    temp: 0
+    max: 5702887
+section .text:
+    fib:
+        lit b
+        push
+        lit max
+        push
+        cmp
+        drop
+        drop
+        jz end
+
+        lit 2
+        lit b
+        push
+        mod
+        drop
+        jz even
+    next:
+        lit a
+        push
+        lit b
+        push
+        add
+        lit temp
+        pop
+
+        lit b
+        push
+        lit a
+        pop
+
+        lit temp
+        push
+        lit b
+        pop
+        jmp fib
+    even:
+        lit b
+        push
+        lit sum
+        push
+        add
+        lit sum
+        pop
+        jmp next
+    end:
+        lit sum
+        push
+        out 1
+        halt

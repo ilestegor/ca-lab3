@@ -235,7 +235,7 @@ def main(source: str, target: str) -> None:
     s, instr = translate(src)
 
     write_code(s, target, custom_serializer)
-    print(f"source LoC: {len(src.splitlines())} code instr: {instr - 1}")
+    print(f"source LoC: {len(src.splitlines())} code instr: {len(s)}")
 
 
 if __name__ == "__main__":

@@ -290,9 +290,257 @@ jmp label ; jmp 12, где 12 - адрес инструкции после об�
 ## [Модель процессора](#модель-процессора)
 Интерфейс командной строки: `python3 machine.py <machine_code_file> <input_file> <log_level> - optional`
 
+Последний аргумент позволяет выбрать просмотр уровня журнала состояния процессора. Является опциональным. По умолчанию уровень вывода журнала состояния процессора -- `DEBUG`
+
 Реализовано в модуле [machine](machine.py)
 
 ### Схема DataPath
-<img src="resources/img/datapath_controlu_unit_models.jpg" width="900"  alt="datapath img"/>
+<img src="resources/img/data_path.jpg" width="900"  alt="datapath img"/>
+
+Реализован в классе [DataPath](machine.py)
+
+### Стек данных
+<img src="resources/img/data_stack.jpg" width="900"  alt="datapath img"/>
+
+- `reg1` и `reg2` - регистры, в которых можно хранить значения с верхушки стека данных. Используются для ввода/вывод данных из стека
+
+### Стек адреса
+<img src="resources/img/address_stack.jpg" width="900"  alt="datapath img"/>
+
+`addr_reg1` - регистр для хранения значения с верхушки стека данных. Используется для ввода/вывода значений со стека адресов
+
+Сигналы (обрабатываются за один такт, реализованы в виде методов класса):
+- `wr_data_stack` -- записать значение из регистра `reg1` или `reg2` на верхушку стека данных
+- `re_data_stack` -- прочитать значение с верхушки стека данных в `reg1` и/или в `reg2`
+- `latch_reg1` -- защелкнуть значение в регистр `reg1`
+- `latch_reg2` -- защелкнуть значение в регистр `reg2`
+- `wr_addr_stack` -- записать значение из регистра `addr_reg1` на верхушку стека адреса
+- `re_addres_stack` -- прочитать значение с верхушки стека данных в регистр `addr_reg1`
+- `latch_addr_reg1` -- защелкнуть значение в регистр `addr_reg`
+- `wr_mem` -- прочитать значение из памяти по пришедшему адресу
+- `re_mem` -- записать значение по пришедшему адресу
+- `latch_pc` -- защелкнуть значение в регистр `PC`
+- `+1` -- выполнить операцию инкремента
+- `-1` -- выполнить операцию декремента
+- `-` -- выполнить операцию вычитания
+- `+` -- выполнить операцию сложения
+- `*` -- выполнить операцию умножения 
+- `/` -- выполнить операцию целочисленного деления
+- `%` -- выполнить операцию взятия остатка от деления
+
+Флаги:
+- `z_flag` - отражает наличие нулевого результат операции, выполненной в `alu`
+
+### ControlUnit
+<img src="resources/img/control_unit.jpg" width="900"  alt="datapath img"/>
+
+Реализован в классе [ControlUnit](machine.py)
+- `Hardwired` (реализован полностью на Python)
+- Метод `init_cycle` выполняет предварительную инициализацию модели, а именно защелкивание в `PC` адрес начала инструкций (2 такта процессора)
+- Метод `decode_and_execute_instruction` декодирует и выполняет инструкцию (1 такт процессора)
+- `tick` -- подсчет тактов процессора
+
+Особенности работы модели:
+- Цикл симуляции осуществляется в функции `sumilation`. 
+- Шаг моделирования соответствует одной инструкции с выводом состояния в журнал
+- Для журнала состояния процессора используется стандартный модуль `logging`
+- Количество инструкций для моделирования лимитировано (`3000`)
+- Остановка моделирования происходит при:
+  - превышения лимита инструкций
+  - возникновения исключения `HaltProgramError` -- если выполнена инструкции  `halt`
 
 ## [Тестирование](#тестирование)
+Тестирование осуществляется при помощи golden test-ов
+
+- Тесты реализованы в: [golden_test.py](golden_test.py)
+- Конфигурация тестов лежит в папке [golden](golden)
+
+Запустить тесты: `poetry run pytest . -v`
+Обновить конфигурацию golden test-ов: `poetry run pytest . -v --update-goldens`
+
+CI при помощи Github Actions:
+
+```yaml
+name: Python CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.3
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install poetry
+          poetry install
+
+      - name: Code formatting Ruff test
+        run: poetry run ruff format --check .
+
+      - name: Ruff linters run
+        run: poetry run ruff check .
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.3
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install poetry
+          poetry install
+
+      - name: Run tests and get coverage
+        run: |
+          poetry run pytest . -v
+          poetry run coverage run -m pytest
+          poetry run coverage report -m
+        env:
+          CI: true
+```
+Где:
+- `poetry` -- управления зависимостями для языка программирования Python
+- `coverage` -- формирование отчет об уровне покрытия исходного кода
+- `pytest` -- утилита для запуска тестов
+- `ruff` -- утилита для форматирования и проверки стиля кодирования
+
+Пример использования и журнал работы процессора на примере `test_add`:
+```shell
+ilestegor@ilestegor lab3 % cat examples/add.txt 
+section .data:
+      x: 2
+      y: 2
+section .text:
+      lit x
+      push
+      lit y
+      push
+      add
+      halt
+ilestegor@ilestegor lab3 % python3 translator.py examples/add.txt out.txt 
+source LoC: 10 code instr: 6
+ilestegor@ilestegor lab3 % cat out.txt 
+[
+ {
+  "addr": 0,
+  "value": 3
+ },
+ {
+  "addr": 1,
+  "value": 2
+ },
+ {
+  "addr": 2,
+  "value": 2
+ },
+ {
+  "opcode": "lit",
+  "addr": 3,
+  "arg": 1
+ },
+ {
+  "opcode": "push",
+  "addr": 4
+ },
+ {
+  "opcode": "lit",
+  "addr": 5,
+  "arg": 2
+ },
+ {
+  "opcode": "push",
+  "addr": 6
+ },
+ {
+  "opcode": "add",
+  "addr": 7
+ },
+ {
+  "opcode": "halt",
+  "addr": 8
+ }
+]
+ilestegor@ilestegor lab3 % python3 machine.py out.txt input 
+DEBUG: execute_lit: TICK: 5   PC 4   TODS1 1   TODS2 0   TOAS 0   Z_FLAG 0   lit 1
+       DATA_STACK [1]
+       ADDRESS_STACK [] 
+
+DEBUG: execute_push: TICK: 11  PC 5   TODS1 2   TODS2 0   TOAS 4   Z_FLAG 0   push
+       DATA_STACK [2]
+       ADDRESS_STACK [] 
+
+DEBUG: execute_lit: TICK: 14  PC 6   TODS1 2   TODS2 0   TOAS 4   Z_FLAG 0   lit 2
+       DATA_STACK [2, 2]
+       ADDRESS_STACK [] 
+
+DEBUG: execute_push: TICK: 20  PC 7   TODS1 2   TODS2 0   TOAS 6   Z_FLAG 0   push
+       DATA_STACK [2, 2]
+       ADDRESS_STACK [] 
+
+DEBUG: execute_binary_alu_operation: TICK: 25  PC 8   TODS1 4   TODS2 2   TOAS 6   Z_FLAG 1   add
+       DATA_STACK [4]
+       ADDRESS_STACK [] 
+
+DEBUG: execute_halt: TICK: 26  PC 8   TODS1 4   TODS2 2   TOAS 6   Z_FLAG 1   halt
+       DATA_STACK [4]
+       ADDRESS_STACK [] 
+
+instruction_count: 6, ticks: 26         
+```
+
+Пример проверки исходного кода:
+
+```shell
+ilestegor@ilestegor lab3 % poetry run pytest . -v
+================================================== test session starts ===================================================
+platform darwin -- Python 3.10.2, pytest-8.2.1, pluggy-1.5.0 -- /usr/local/bin/python3.10
+cachedir: .pytest_cache
+rootdir: /Users/ilestegor/Desktop/Универ/2курс/4сем/арх.комп/lab3
+configfile: pyproject.toml
+plugins: golden-0.2.2
+collected 5 items                                                                                                        
+
+golden_test.py::test_translator_and_machine[golden/test_hello_user_name.yml] PASSED                                [ 20%]
+golden_test.py::test_translator_and_machine[golden/test_cat.yml] PASSED                                            [ 40%]
+golden_test.py::test_translator_and_machine[golden/test_hello_world.yml] PASSED                                    [ 60%]
+golden_test.py::test_translator_and_machine[golden/test_prob2.yml] PASSED                                          [ 80%]
+golden_test.py::test_translator_and_machine[golden/test_add.yml] PASSED                                            [100%]
+
+=================================================== 5 passed in 0.45s ====================================================
+
+ilestegor@ilestegor lab3 % poetry run ruff check .
+All checks passed!
+ilestegor@ilestegor lab3 % poetry run ruff format . --check
+6 files already formatted
+ilestegor@ilestegor lab3 % poetry run ruff format .        
+6 files left unchanged
+```
+
+```text
+| ФИО                    | алг               | LoC |  code инстр. | инстр. | такт. | вариант                                                                     |
+| Глотов Егор Дмитриевич | add               | 10  |  9           | 6      | 26    | asm | stack | neum | hw | instr | struct | stream | port | pstr | prob2 | - |
+| Глотов Егор Дмитриевич | cat               | 28  |  23          | 270    | 1046  | asm | stack | neum | hw | instr | struct | stream | port | pstr | prob2 | - |
+| Глотов Егор Дмитриевич | hello_user_name   | 162 |  194         | 1145   | 4602  | asm | stack | neum | hw | instr | struct | stream | port | pstr | prob2 | - |
+| Глотов Егор Дмитриевич | hello_world       | 41  |  49          | 345    | 1406  | asm | stack | neum | hw | instr | struct | stream | port | pstr | prob2 | - |
+| Глотов Егор Дмитриевич | prob2             | 56  |  48          | 1060   | 4314  | asm | stack | neum | hw | instr | struct | stream | port | pstr | prob2 | - |
+```

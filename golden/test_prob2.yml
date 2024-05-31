@@ -274,7 +274,7 @@ out_code: |-
   ]
 
 out_stdout: |-
-  source LoC: 56 code instr: 42
+  source LoC: 56 code instr: 48
   ============================================================
   4613732
   instruction_count: 1060, ticks: 4314

@@ -1,0 +1,162 @@
+section .data:
+      req: "What is your name?"
+      hello: "Hello,"
+      username: bf 50
+      ptr: req
+      length: 0
+      count: 0
+section .text:
+      call read_length
+      call inc_ptr
+      call print_g
+      call print_space
+      call print_str
+      call print_n
+
+      lit username
+      lit ptr
+      pop
+
+      call read_str
+
+      lit username
+      lit ptr
+      pop
+
+      call read_length
+      call reset_counter
+      call inc_ptr
+
+      call print_l
+      call print_space
+      call print_str ;username input
+      call print_n
+
+      lit hello
+      lit ptr
+      pop
+
+      call read_length
+      call reset_counter
+      call inc_ptr
+
+      call print_g
+      call print_space
+      call print_str
+      call print_space
+
+      lit username
+      lit ptr
+      pop
+      call read_length
+      call reset_counter
+
+      call inc_ptr
+      call print_str
+      halt
+
+
+      read_str:
+         in 0
+         dup
+         lit length
+         pop
+         call reset_counter
+
+         lit ptr
+         push
+         pop
+         call inc_ptr
+         call inc_count
+
+
+
+         read_loop:
+              in 0
+              lit ptr
+              push
+              pop
+
+              lit count
+              push
+              lit length
+              push
+              cmp
+              drop
+              drop
+              jz stop_read
+
+              call inc_count
+              call inc_ptr
+              jmp read_loop
+         stop_read:
+              ret
+
+      print_str:
+          lit count
+          push
+          lit length
+          push
+          cmp
+          drop
+          drop
+          jz stop
+          lit ptr
+          push
+          push
+          out 1
+
+          call inc_count
+          call inc_ptr
+          jmp print_str
+      stop:
+          ret
+
+      inc_count:
+          lit count
+          push
+          inc
+          lit count
+          pop
+          ret
+
+      inc_ptr:
+          lit ptr
+          push
+          inc
+          lit ptr
+          pop
+          ret
+
+      reset_counter:
+          lit 0
+          lit count
+          pop
+          ret
+
+      read_length:
+          lit ptr
+          push
+          push
+          lit length
+          pop
+          ret
+
+      print_space:
+          lit 32
+          out 1
+          ret
+
+      print_n:
+           lit 10
+           out 1
+           ret
+
+      print_g:
+          lit 62
+          out 1
+          ret
+      print_l:
+          lit 60
+          out 1
+          ret

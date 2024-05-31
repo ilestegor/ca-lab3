@@ -257,7 +257,7 @@ out_code: |-
   ]
 
 out_stdout: |-
-  source LoC: 41 code instr: 44
+  source LoC: 41 code instr: 49
   ============================================================
   Hello, world!
   instruction_count: 345, ticks: 1406

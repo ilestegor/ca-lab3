@@ -227,15 +227,14 @@ class ControlUnit:
         instruction = self.datapath.signal_read_mem(self.datapath.pc)
         self.tick()
 
-        opcode = instruction.opcode
         self.cur_instruction = instruction.opcode
         self.cur_operand = instruction.arg
 
-        if self.decode_and_execute_control_flow_instruction(opcode):
+        if self.decode_and_execute_control_flow_instruction(self.cur_instruction):
             return
 
-        executor = self.executors.get(opcode)
-        executor(opcode)
+        executor = self.executors.get(self.cur_instruction)
+        executor(self.cur_instruction)
 
     def decode_and_execute_control_flow_instruction(self, opcode: Opcode) -> bool:
         if opcode == Opcode.JMP:

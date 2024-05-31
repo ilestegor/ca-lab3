@@ -1014,7 +1014,7 @@ out_code: |-
    }
   ]
 out_stdout: |-
-  source LoC: 162 code instr: 187
+  source LoC: 162 code instr: 194
   ============================================================
   > What is your name?
   < Egor

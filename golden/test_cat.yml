@@ -135,7 +135,7 @@ out_code: |-
    }
   ]
 out_stdout: |-
-  source LoC: 28 code instr: 20
+  source LoC: 28 code instr: 23
   ============================================================
   360 by charli xcx
   instruction_count: 270, ticks: 1046
