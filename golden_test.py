@@ -4,9 +4,8 @@ import logging
 import os
 import tempfile
 
-import pytest
-
 import machine
+import pytest
 import translator
 
 formatter = logging.Formatter("%(levelname)s: %(funcName)s:%(message)s")
@@ -47,7 +46,7 @@ def test_translator_and_machine(golden, caplog):
             print("============================================================")
             machine.main(target, input_stream)
 
-        with open(target, "r", encoding="utf-8") as f:
+        with open(target, encoding="utf-8") as f:
             code = f.read()
 
         assert code == golden.out["out_code"]

@@ -1,13 +1,16 @@
+from __future__ import annotations
+
 import re
 import sys
 
-from isa import Opcode, MachineWord, write_code, Variable, command2opcode
+from exception import LabelNotDefinedError, UnexpectedVariableError, VariableOrLabelNotDefinedError
+from isa import MachineWord, Opcode, Variable, command2opcode, write_code
 
 
 class Program:
-    def __init__(self):
+    def __init__(self) -> None:
         self.machine_code: list[MachineWord | Variable] = []
-        self.current_command_addr = 0
+        self.current_command_addr: int = 0
         self.variables: dict[str, Variable] = {}
         self.labels: dict[str, int] = {}
 
@@ -16,9 +19,7 @@ class Program:
 
 
 def remove_indent(src_code: str) -> list[str]:
-    src_code = src_code.splitlines()
-    src_code = [x.strip() for x in src_code]
-    return src_code
+    return [x.strip() for x in src_code.splitlines()]
 
 
 def remove_comments(src_code: str) -> str:
@@ -26,10 +27,7 @@ def remove_comments(src_code: str) -> str:
 
 
 def clean_code(src_code: str) -> list[str]:
-    src_code = remove_comments(src_code)
-    src_code = remove_indent(src_code)
-    src_code = [x for x in src_code if x != ""]
-    return src_code
+    return [x for x in remove_indent(remove_comments(src_code)) if x != ""]
 
 
 def is_variable_exist(program: Program, variable: str) -> bool:
@@ -43,6 +41,7 @@ def get_variable_by_name(program: Program, name: str) -> Variable:
     for i in program.variables:
         if i == name:
             return program.variables[i]
+    return Variable(name, program.current_command_addr, None)
 
 
 def get_label_addr_by_name(program: Program, name: str) -> int | None:
@@ -50,7 +49,7 @@ def get_label_addr_by_name(program: Program, name: str) -> int | None:
         if i == name:
             return program.labels[i]
     else:
-        raise ValueError(f"Syntax error: Label {name} was not defined")
+        raise LabelNotDefinedError(name)
 
 
 def is_number(s: str) -> bool:
@@ -70,82 +69,49 @@ def is_malloc_request(s: str) -> bool:
 
 
 def translate_section_data(data_block: list[str], program: Program) -> None:
-    program.machine_code.append(
-        Variable("start_address", program.current_command_addr, None)
-    )
+    program.machine_code.append(Variable("start_address", program.current_command_addr, None))
     program.current_command_addr += 1
     for data in data_block:
         decl = [x.strip() for x in data.split(":", 1)]
         var_name = decl[0]
         var_value = decl[1]
-        if is_variable_exist(program, var_name):
-            raise ValueError(f"Variable {var_name} is already defined")
-        else:
-            if is_malloc_request(var_value):
-                arg = [x.strip() for x in var_value.split(" ")][1]
-                if is_number(arg):
-                    program.variables[var_name] = Variable(
-                        var_name, program.current_command_addr, arg
-                    )
-                    for i in range(int(arg)):
-                        program.machine_code.append(
-                            Variable(var_name, program.current_command_addr, 0)
-                        )
-                        program.current_command_addr += 1
-                    continue
-                else:
-                    raise ValueError(
-                        f"Syntax error: Variable {var_name} must be number"
-                    )
+        assert not is_variable_exist(program, var_name), f"Variable {var_name} is already defined"
+        if is_malloc_request(var_value):
+            arg = [x.strip() for x in var_value.split(" ")][1]
+            assert is_number(arg), f"Variable {var_name} is not a number"
+            program.variables[var_name] = Variable(var_name, program.current_command_addr, arg)
+            for i in range(int(arg)):
+                program.machine_code.append(Variable(var_name, program.current_command_addr, 0))
+                program.current_command_addr += 1
+            continue
 
-            if is_number(var_value):
-                program.variables[var_name] = Variable(
-                    var_name, program.current_command_addr, int(var_value)
-                )
-                program.machine_code.append(
-                    Variable(var_name, program.current_command_addr, int(var_value))
-                )
+        if is_number(var_value):
+            program.variables[var_name] = Variable(var_name, program.current_command_addr, int(var_value))
+            program.machine_code.append(Variable(var_name, program.current_command_addr, int(var_value)))
+            program.current_command_addr += 1
+        elif is_variable(var_value):
+            assert is_variable_exist(program, var_value), f"Variable {var_value} is not defined to be referenced"
+            var: Variable = get_variable_by_name(program, var_value)
+            program.variables[var_name] = Variable(var_name, program.current_command_addr, var.addr)
+            program.machine_code.append(Variable(var_name, program.current_command_addr, var.addr))
+            program.current_command_addr += 1
+        elif is_string(var_value):
+            transformed_string = [ord(x) for x in var_value]
+            transformed_string.insert(0, len(transformed_string) - 2)
+            program.variables[var_name] = Variable(var_name, program.current_command_addr, transformed_string[0])
+            program.machine_code.append(Variable(var_name, program.current_command_addr, transformed_string[0]))
+            transformed_string.pop(0)
+            transformed_string.remove(34)
+            transformed_string.remove(34)
+            program.current_command_addr += 1
+            for i in transformed_string:
+                program.machine_code.append(Variable(var_name, program.current_command_addr, i))
                 program.current_command_addr += 1
-            elif is_variable(var_value):
-                if is_variable_exist(program, var_value):
-                    var: Variable = get_variable_by_name(program, var_value)
-                    program.variables[var_name] = Variable(
-                        var_name, program.current_command_addr, var.addr
-                    )
-                    program.machine_code.append(
-                        Variable(var_name, program.current_command_addr, var.addr)
-                    )
-                    program.current_command_addr += 1
-                else:
-                    raise ValueError(
-                        f"Variable {var_value} is not defined to be referenced"
-                    )
-            elif is_string(var_value):
-                transformed_string = [ord(x) for x in var_value]
-                transformed_string.insert(0, len(transformed_string) - 2)
-                program.variables[var_name] = Variable(
-                    var_name, program.current_command_addr, transformed_string[0]
-                )
-                program.machine_code.append(
-                    Variable(
-                        var_name, program.current_command_addr, transformed_string[0]
-                    )
-                )
-                transformed_string.pop(0)
-                transformed_string.remove(34)
-                transformed_string.remove(34)
-                program.current_command_addr += 1
-                for i in transformed_string:
-                    program.machine_code.append(
-                        Variable(var_name, program.current_command_addr, i)
-                    )
-                    program.current_command_addr += 1
-            else:
-                raise ValueError(f"Unexpected variable {var_value}")
+        else:
+            raise UnexpectedVariableError(var_value)
 
 
 def is_label(s: str) -> bool:
-    # return bool(re.match(r".*:", s))
     return bool(re.match(r"^[^<>%$.]*:$", s))
 
 
@@ -157,6 +123,7 @@ def get_variable_addr(var: Variable, program: Program) -> MachineWord | Variable
     for i in program.variables:
         if program.variables[i].addr == var.value:
             return program.variables[i]
+    return None
 
 
 def translate_section_text(command_block: list[str], program: Program) -> None:
@@ -169,37 +136,23 @@ def translate_section_text(command_block: list[str], program: Program) -> None:
         if len(command_and_arg) == 2:
             opcode = command2opcode(command_and_arg[0])
             if opcode in {Opcode.JMP, Opcode.JZ, Opcode.JNZ, Opcode.CALL}:
-                program.machine_code.append(
-                    (
-                        MachineWord(
-                            program.current_command_addr, opcode, command_and_arg[1]
-                        )
-                    )
-                )
+                program.machine_code.append(MachineWord(program.current_command_addr, opcode, command_and_arg[1]))
                 program.current_command_addr += 1
                 continue
             if is_number(command_and_arg[1]):
                 program.machine_code.append(
-                    (
-                        MachineWord(
-                            program.current_command_addr,
-                            opcode,
-                            int(command_and_arg[1]),
-                        )
+                    MachineWord(
+                        program.current_command_addr,
+                        opcode,
+                        int(command_and_arg[1]),
                     )
                 )
                 program.current_command_addr += 1
                 continue
-            program.machine_code.append(
-                (MachineWord(program.current_command_addr, opcode, command_and_arg[1]))
-            )
+            program.machine_code.append(MachineWord(program.current_command_addr, opcode, command_and_arg[1]))
             program.current_command_addr += 1
         elif len(command_and_arg) == 1 and command_and_arg[0] != "":
-            program.machine_code.append(
-                MachineWord(
-                    program.current_command_addr, command2opcode(command_and_arg[0])
-                )
-            )
+            program.machine_code.append(MachineWord(program.current_command_addr, command2opcode(command_and_arg[0])))
             program.current_command_addr += 1
 
 
@@ -210,9 +163,7 @@ def resolve_addresses(program: Program):
             and program.machine_code[i].arg is not None
             and program.machine_code[i].arg in program.labels
         ):
-            label_addr = get_label_addr_by_name(
-                program, str(program.machine_code[i].arg)
-            )
+            label_addr = get_label_addr_by_name(program, str(program.machine_code[i].arg))
             program.machine_code[i].arg = label_addr
             continue
         if (
@@ -231,18 +182,15 @@ def resolve_addresses(program: Program):
             var = program.machine_code[i].arg[1:-1]
             if var in program.variables:
                 indirect_variable = get_variable_addr(program.variables[var], program)
-                if indirect_variable is not None:
-                    program.machine_code[i].arg = indirect_variable.value
-                else:
-                    raise ValueError(f"Variable {var} is not defined to be referenced")
+                assert indirect_variable is not None, f"Variable {var} is not defined to be referenced"
+                program.machine_code[i].arg = indirect_variable.value
+
         elif (
             isinstance(program.machine_code[i], MachineWord)
             and program.machine_code[i].arg is not None
             and not is_number(str(program.machine_code[i].arg))
         ):
-            raise ValueError(
-                f"Variable or label <{program.machine_code[i].arg}> is not defined"
-            )
+            raise VariableOrLabelNotDefinedError(program.machine_code[i].arg)
 
     for i in program.machine_code:
         if isinstance(i, MachineWord):
@@ -255,18 +203,10 @@ def translate(src_code: str):
     src_code = clean_code(src_code)
     # translate section data
 
-    section_data_index_start = [
-        x for x in range(len(src_code)) if src_code[x] == "section .data:"
-    ]
-    assert (
-        len(section_data_index_start) == 1
-    ), "Translation error: data section not found or is in multiple places"
-    section_text_start_index = [
-        x for x in range(len(src_code)) if src_code[x] == "section .text:"
-    ]
-    assert (
-        len(section_text_start_index) == 1
-    ), "Translation error: text section not found or is in multiple places"
+    section_data_index_start = [x for x in range(len(src_code)) if src_code[x] == "section .data:"]
+    assert len(section_data_index_start) == 1, "Translation error: data section not found or is in multiple places"
+    section_text_start_index = [x for x in range(len(src_code)) if src_code[x] == "section .text:"]
+    assert len(section_text_start_index) == 1, "Translation error: text section not found or is in multiple places"
 
     data_block = src_code[section_data_index_start[0] + 1 : section_text_start_index[0]]
     commands_block = src_code[section_text_start_index[0] + 1 : len(src_code) + 1]
@@ -285,6 +225,7 @@ def custom_serializer(obj: Variable | MachineWord):
         if obj.arg is not None:
             return {"opcode": obj.opcode.value, "addr": obj.index, "arg": obj.arg}
         return {"opcode": obj.opcode.value, "addr": obj.index}
+    return None
 
 
 def main(source: str, target: str) -> None:

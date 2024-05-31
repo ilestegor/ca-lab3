@@ -1,5 +1,9 @@
+from __future__ import annotations
+
 import json
 from enum import Enum
+
+from exception import OpcodeError
 
 
 class Opcode(Enum):
@@ -34,7 +38,7 @@ def command2opcode(command: str) -> Opcode:
     try:
         return Opcode[command.upper()]
     except KeyError:
-        raise ValueError(f"Unknown opcode {command}")
+        raise OpcodeError(command)
 
 
 class Variable:
@@ -48,7 +52,7 @@ class Variable:
 
 
 class MemoryCell:
-    def __init__(self, address: int, opcode: Opcode = None, arg: int = None):
+    def __init__(self, address: int, opcode: Opcode | None = None, arg: int | None = None):
         self.address = address
         self.opcode = opcode
         self.arg = arg
@@ -61,13 +65,11 @@ class MemoryCell:
 
 
 class MachineWord:
-    index: int = None
-    opcode: Opcode = None
-    arg: int | list[int] = None
+    index: int | None = None
+    opcode: Opcode
+    arg: int | list[int] | None = None
 
-    def __init__(
-        self, index: int, opcode: Opcode = None, arg: int | str = None
-    ) -> None:
+    def __init__(self, index: int, opcode: Opcode, arg: int | list[int] | str | None = None) -> None:
         self.index = index
         self.opcode = opcode
         self.arg = arg
@@ -84,7 +86,7 @@ def write_code(code: list[MachineWord | Variable], fn: str, custom_ser) -> None:
 
 
 def read_code(source: str) -> list[MemoryCell]:
-    with open(source, "r", encoding="utf-8") as f:
+    with open(source, encoding="utf-8") as f:
         code = json.load(f)
 
     program: list[MemoryCell] = []
@@ -95,6 +97,5 @@ def read_code(source: str) -> list[MemoryCell]:
         if "opcode" in i:
             program.append(MemoryCell(i["addr"], Opcode(i["opcode"])))
             continue
-        else:
-            program.append(MemoryCell(i["addr"], None, i["value"]))
+        program.append(MemoryCell(i["addr"], None, i["value"]))
     return program
