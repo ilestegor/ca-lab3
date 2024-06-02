@@ -6,12 +6,7 @@ import unicodedata
 from dataclasses import dataclass
 from typing import Callable
 
-from constants import (
-    ADDRESS_STACK_SIZE,
-    DATA_STACK_SIZE,
-    INSTRUCTIONS_LIMIT,
-    MEMORY_SIZE,
-)
+from constants import ADDRESS_STACK_SIZE, DATA_STACK_SIZE, INSTRUCTIONS_LIMIT, MAX_NUMBER, MEMORY_SIZE, MIN_NUMBER
 from exception import HaltProgramError
 from isa import MemoryCell, Opcode, read_code
 
@@ -34,18 +29,29 @@ class Alu:
     z_flag = 0
 
     def calculate(self, left: int, right: int, opcode: Opcode) -> int | None:
-        assert opcode in AVAILABLE_ALU_BIN_OPERATIONS or opcode in AVAILABLE_ALU_UNARY_OPERATIONS, f"Unknown alu operation code: {opcode}"
+        assert opcode in AVAILABLE_ALU_BIN_OPERATIONS or opcode in AVAILABLE_ALU_UNARY_OPERATIONS, (
+            f"Unknown alu " f"operation code:" f" {opcode}"
+        )
         if opcode in AVAILABLE_ALU_BIN_OPERATIONS:
             alu_op_handler = AVAILABLE_ALU_BIN_OPERATIONS[opcode]
             calculated_value = alu_op_handler(left, right)
+            calculated_value = self.overflow(calculated_value)
             self.set_flags(calculated_value)
             return calculated_value
         if opcode in AVAILABLE_ALU_UNARY_OPERATIONS:
             alu_op_handler = AVAILABLE_ALU_UNARY_OPERATIONS[opcode]
             calculated_value = alu_op_handler(left)
+            calculated_value = self.overflow(calculated_value)
             self.set_flags(calculated_value)
             return calculated_value
         return None
+
+    def overflow(self, value: int) -> int:
+        if value > MAX_NUMBER:
+            return value % MAX_NUMBER
+        if value < MIN_NUMBER:
+            return value % abs(MIN_NUMBER)
+        return value
 
     def set_flags(self, value: int):
         if value == 0:
@@ -477,7 +483,8 @@ class ControlUnit:
     def __repr__(self):
         state_repr = (
             f" TICK: {self.ticks!s:3} PC {self.datapath.pc!s:3} TODS1 {self.datapath.data_tos_reg_1!s:3} "
-            f"TODS2 {self.datapath.data_tos_reg_2!s:3} TOAS {self.datapath.address_tos_reg_1!s:3} Z_FLAG {self.datapath.alu.z_flag!s:3}"
+            f"TODS2 {self.datapath.data_tos_reg_2!s:3} TOAS {self.datapath.address_tos_reg_1!s:3} "
+            f"Z_FLAG {self.datapath.alu.z_flag!s:3}"
         )
 
         data_stack_repr = f"DATA_STACK {self.datapath.data_stack}"
@@ -540,7 +547,9 @@ def main(source_code_fn: str, input_data_fn: str) -> None:
 
 
 if __name__ == "__main__":
-    assert 4 >= len(sys.argv) >= 3, "Invalid usage: usage - machine.py <source_code_fn> <input_data_fn> <log_level> - " "optional"
+    assert 4 >= len(sys.argv) >= 3, (
+        "Invalid usage: usage - machine.py <source_code_fn> <input_data_fn> <log_level> - " "optional"
+    )
     if len(sys.argv) == 4:
         _, source, input_data, log_level = sys.argv
         log_level = log_level.upper()
