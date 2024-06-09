@@ -73,11 +73,11 @@ def translate_section_data(data_block: list[str], program: Program) -> None:
     program.current_command_addr += 1
     for data in data_block:
         decl = [x.strip() for x in data.split(":", 1)]
-        var_name = decl[0]
-        var_value = decl[1]
+        var_name: str = decl[0]
+        var_value: str = decl[1]
         assert not is_variable_exist(program, var_name), f"Variable {var_name} is already defined"
         if is_malloc_request(var_value):
-            arg = [x.strip() for x in var_value.split(" ")][1]
+            arg: str = [x.strip() for x in var_value.split(" ")][1]
             assert is_number(arg), f"Variable {var_name} is not a number"
             program.variables[var_name] = Variable(var_name, program.current_command_addr, arg)
             for i in range(int(arg)):
@@ -96,13 +96,12 @@ def translate_section_data(data_block: list[str], program: Program) -> None:
             program.machine_code.append(Variable(var_name, program.current_command_addr, var.addr))
             program.current_command_addr += 1
         elif is_string(var_value):
+            var_value = var_value.replace('"', "")
             transformed_string = [ord(x) for x in var_value]
-            transformed_string.insert(0, len(transformed_string) - 2)
+            transformed_string.insert(0, len(transformed_string))
             program.variables[var_name] = Variable(var_name, program.current_command_addr, transformed_string[0])
             program.machine_code.append(Variable(var_name, program.current_command_addr, transformed_string[0]))
             transformed_string.pop(0)
-            transformed_string.remove(34)
-            transformed_string.remove(34)
             program.current_command_addr += 1
             for i in transformed_string:
                 program.machine_code.append(Variable(var_name, program.current_command_addr, i))
@@ -198,10 +197,9 @@ def resolve_addresses(program: Program):
             break
 
 
-def translate(src_code: str):
+def translate(src_code: str) -> tuple[list[MachineWord | Variable], int]:
     program = Program()
     src_code = clean_code(src_code)
-    # translate section data
 
     section_data_index_start = [x for x in range(len(src_code)) if src_code[x] == "section .data:"]
     assert len(section_data_index_start) == 1, "Translation error: data section not found or is in multiple places"
@@ -218,7 +216,7 @@ def translate(src_code: str):
     return program.machine_code, abs(len(program.variables) - len(program.machine_code))
 
 
-def custom_serializer(obj: Variable | MachineWord):
+def custom_serializer(obj: Variable | MachineWord) -> object | None:
     if isinstance(obj, Variable):
         return {"addr": obj.addr, "value": obj.value}
     if isinstance(obj, MachineWord):

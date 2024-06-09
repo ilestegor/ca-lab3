@@ -1,0 +1,212 @@
+[
+ {
+  "addr": 0,
+  "value": 18
+ },
+ {
+  "addr": 1,
+  "value": 13
+ },
+ {
+  "addr": 2,
+  "value": 72
+ },
+ {
+  "addr": 3,
+  "value": 101
+ },
+ {
+  "addr": 4,
+  "value": 108
+ },
+ {
+  "addr": 5,
+  "value": 108
+ },
+ {
+  "addr": 6,
+  "value": 111
+ },
+ {
+  "addr": 7,
+  "value": 44
+ },
+ {
+  "addr": 8,
+  "value": 32
+ },
+ {
+  "addr": 9,
+  "value": 119
+ },
+ {
+  "addr": 10,
+  "value": 111
+ },
+ {
+  "addr": 11,
+  "value": 114
+ },
+ {
+  "addr": 12,
+  "value": 108
+ },
+ {
+  "addr": 13,
+  "value": 100
+ },
+ {
+  "addr": 14,
+  "value": 33
+ },
+ {
+  "addr": 15,
+  "value": 1
+ },
+ {
+  "addr": 16,
+  "value": 0
+ },
+ {
+  "addr": 17,
+  "value": 0
+ },
+ {
+  "opcode": "lit",
+  "addr": 18,
+  "arg": 1
+ },
+ {
+  "opcode": "push",
+  "addr": 19
+ },
+ {
+  "opcode": "lit",
+  "addr": 20,
+  "arg": 16
+ },
+ {
+  "opcode": "pop",
+  "addr": 21
+ },
+ {
+  "opcode": "call",
+  "addr": 22,
+  "arg": 42
+ },
+ {
+  "opcode": "lit",
+  "addr": 23,
+  "arg": 17
+ },
+ {
+  "opcode": "push",
+  "addr": 24
+ },
+ {
+  "opcode": "lit",
+  "addr": 25,
+  "arg": 16
+ },
+ {
+  "opcode": "push",
+  "addr": 26
+ },
+ {
+  "opcode": "cmp",
+  "addr": 27
+ },
+ {
+  "opcode": "drop",
+  "addr": 28
+ },
+ {
+  "opcode": "drop",
+  "addr": 29
+ },
+ {
+  "opcode": "jz",
+  "addr": 30,
+  "arg": 48
+ },
+ {
+  "opcode": "lit",
+  "addr": 31,
+  "arg": 15
+ },
+ {
+  "opcode": "push",
+  "addr": 32
+ },
+ {
+  "opcode": "push",
+  "addr": 33
+ },
+ {
+  "opcode": "out",
+  "addr": 34,
+  "arg": 1
+ },
+ {
+  "opcode": "call",
+  "addr": 35,
+  "arg": 42
+ },
+ {
+  "opcode": "lit",
+  "addr": 36,
+  "arg": 17
+ },
+ {
+  "opcode": "push",
+  "addr": 37
+ },
+ {
+  "opcode": "inc",
+  "addr": 38
+ },
+ {
+  "opcode": "lit",
+  "addr": 39,
+  "arg": 17
+ },
+ {
+  "opcode": "pop",
+  "addr": 40
+ },
+ {
+  "opcode": "jmp",
+  "addr": 41,
+  "arg": 23
+ },
+ {
+  "opcode": "lit",
+  "addr": 42,
+  "arg": 15
+ },
+ {
+  "opcode": "push",
+  "addr": 43
+ },
+ {
+  "opcode": "inc",
+  "addr": 44
+ },
+ {
+  "opcode": "lit",
+  "addr": 45,
+  "arg": 15
+ },
+ {
+  "opcode": "pop",
+  "addr": 46
+ },
+ {
+  "opcode": "ret",
+  "addr": 47
+ },
+ {
+  "opcode": "halt",
+  "addr": 48
+ }
+]
