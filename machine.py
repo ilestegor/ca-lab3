@@ -26,7 +26,7 @@ AVAILABLE_ALU_UNARY_OPERATIONS: dict[Opcode, Callable] = {
 
 
 class Alu:
-    z_flag = None
+    z_flag = 0
 
     def calculate(self, left: int, right: int, opcode: Opcode) -> int | None:
         assert opcode in AVAILABLE_ALU_BIN_OPERATIONS or opcode in AVAILABLE_ALU_UNARY_OPERATIONS, (
