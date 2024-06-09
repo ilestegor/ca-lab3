@@ -59,11 +59,11 @@ op1 ::= call label
         | jnz label
         
 
-lowercase_letter ::= [A-Z]
-uppercase_letter ::= [a-z]
+lowercase_letter ::= ["A-Z"]
+uppercase_letter ::= ["a-z"]
 
-digit ::= [0-9]
-positive_number ::= <any digit except: 0> {digit}
+digit ::= ["0-9"]
+positive_number ::= <any digit except "0"> {digit}
 negative_number ::= ["-"] positive_number
 number ::= positibe_number | negative_number 
 string = "\"[><\w\s,.:;!?()\\-]+\""
